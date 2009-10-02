@@ -38,7 +38,8 @@
 
 	<modules>
     <module>mistletoe-core</module>
-		<module>mistletoe-web-runner</module>
+		<module>mistletoe-servlet</module>
+		<module>mistletoe-servlet-test</module>
   </modules>
 
   <dependencyManagement>
@@ -53,6 +54,12 @@
       <dependency>
         <groupId>ch.qos.mistletoe</groupId>
         <artifactId>mistletoe-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.mistletoe</groupId>
+        <artifactId>mistletoe-servlet</artifactId>
         <version>${project.version}</version>
       </dependency>
 

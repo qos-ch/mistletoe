@@ -1,0 +1,26 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+  <display-name>mistletoe-servlet-test</display-name>
+  
+
+	<!-- The Usual Welcome File List -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+  <servlet>
+    <servlet-name>MistletoeServlet</servlet-name>
+    <servlet-class>ch.qos.mistletoe.servlet.MistletoeServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>MistletoeServlet</servlet-name>
+    <url-pattern>/mistletoe/*</url-pattern>
+  </servlet-mapping>
+ 
+       
+</web-app>
+
