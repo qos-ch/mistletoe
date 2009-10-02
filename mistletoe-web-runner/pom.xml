@@ -22,6 +22,12 @@
       <groupId>ch.qos.mistletoe</groupId>
       <artifactId>mistletoe-core</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+
   </dependencies> 
 
   <build>
