@@ -29,11 +29,24 @@ public class MistletoeCore {
   }
 
   
+  public Description getDescription() {
+    return description;
+  }
+
+  public Result getResult() {
+    return result;
+  }
+
+  public StopWatchRunListener getStopWatchRunListener() {
+    return swRunListener;
+  }
+
+
   public static void main(String[] args) {
-    MistletoeCore webRunner = new MistletoeCore(MyCollection.class);
-    webRunner.run();
-    dumpDescription(webRunner.swRunListener, webRunner.description);
-    dumpResult(webRunner.result);
+    MistletoeCore mCore = new MistletoeCore(MyCollection.class);
+    mCore.run();
+    dumpDescription(mCore.swRunListener, mCore.description);
+    dumpResult(mCore.result);
   }
   
   
