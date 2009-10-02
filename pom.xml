@@ -37,6 +37,7 @@
   </properties>
 
 	<modules>
+    <module>mistletoe-core</module>
 		<module>mistletoe-web-runner</module>
   </modules>
 
