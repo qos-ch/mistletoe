@@ -13,23 +13,26 @@ import org.junit.runner.notification.RunNotifier;
 
 import ch.qos.mistletoe.sample.MyCollection;
 
-public class MistletoeRunner {
+public class MistletoeCore {
 
-  Class<?> targetClass;
-  private RunNotifier notifier = new RunNotifier();
-  private MyRunListener myListener = new MyRunListener();
+  private final Class<?> targetClass;
+  private final RunNotifier notifier = new RunNotifier();
+  private final StopWatchRunListener swRunListener = new StopWatchRunListener();
+  
+  // description of the suite run
   Description description;
+  // result of the run
   Result result;
   
-  MistletoeRunner(Class<?> targetClass) {
+  MistletoeCore(Class<?> targetClass) {
     this.targetClass = targetClass;
   }
 
   
   public static void main(String[] args) {
-    MistletoeRunner webRunner = new MistletoeRunner(MyCollection.class);
+    MistletoeCore webRunner = new MistletoeCore(MyCollection.class);
     webRunner.run();
-    dumpDescription(webRunner.myListener, webRunner.description);
+    dumpDescription(webRunner.swRunListener, webRunner.description);
     dumpResult(webRunner.result);
   }
   
@@ -47,7 +50,7 @@ public class MistletoeRunner {
     Result result = new Result();
     RunListener listener = result.createListener();
     notifier.addFirstListener(listener);
-    notifier.addListener(myListener);
+    notifier.addListener(swRunListener);
     
     try {
       notifier.fireTestRunStarted(runner.getDescription());
@@ -59,7 +62,7 @@ public class MistletoeRunner {
     return result;
   }
 
-  static void dumpDescription(MyRunListener myListener, Description description) {
+  static void dumpDescription(StopWatchRunListener myListener, Description description) {
     if(description.isSuite()) {
       dumpSuite(myListener, description, "");
     } else {
@@ -67,7 +70,7 @@ public class MistletoeRunner {
     }
   }
   
-  static void dumpTest(MyRunListener myListener, Description description, String offset) {
+  static void dumpTest(StopWatchRunListener myListener, Description description, String offset) {
     System.out.println(offset+"T -----");
     System.out.println(offset+"T display name="+description.getDisplayName());
     System.out.println(offset+"T getClassName="+description.getClassName());
@@ -78,7 +81,7 @@ public class MistletoeRunner {
     
   }
 
-  static void dumpSuite(MyRunListener myListener, Description description, String offset) {
+  static void dumpSuite(StopWatchRunListener myListener, Description description, String offset) {
     System.out.println(offset+"display name="+description.getDisplayName());
     System.out.println(offset+"getClassName="+description.getClassName());
     System.out.println(offset+"test count="+description.testCount());
