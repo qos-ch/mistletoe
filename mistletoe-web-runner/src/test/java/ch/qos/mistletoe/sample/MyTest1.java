@@ -1,4 +1,4 @@
-package ch.qos.mistletoe.suiteRunner;
+package ch.qos.mistletoe.sample;
 
 import org.junit.Test;
 

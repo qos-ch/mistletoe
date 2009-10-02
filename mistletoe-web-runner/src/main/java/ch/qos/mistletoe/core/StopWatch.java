@@ -1,6 +1,6 @@
-package ch.qos.mistletoe.suiteRunner;
+package ch.qos.mistletoe.core;
 
-public class Timer {
+public class StopWatch {
   long start;
   long end;
   

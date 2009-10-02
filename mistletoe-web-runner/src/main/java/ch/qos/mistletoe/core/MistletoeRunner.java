@@ -1,4 +1,4 @@
-package ch.qos.mistletoe.suiteRunner;
+package ch.qos.mistletoe.core;
 
 import java.util.List;
 
@@ -11,25 +11,39 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 
-public class MySuiteRunner {
+import ch.qos.mistletoe.sample.MyCollection;
 
-  static RunNotifier notifier = new RunNotifier();
-  static MyRunListener myListener = new MyRunListener();
+public class MistletoeRunner {
+
+  Class<?> targetClass;
+  private RunNotifier notifier = new RunNotifier();
+  private MyRunListener myListener = new MyRunListener();
+  Description description;
+  Result result;
+  
+  MistletoeRunner(Class<?> targetClass) {
+    this.targetClass = targetClass;
+  }
+
   
   public static void main(String[] args) {
-    Computer defaultComputer = new Computer();
-    Request request = Request.classes(defaultComputer, MyCollection.class);
-    Runner runner = request.getRunner();
-   
-    Result result = run(runner);
-    
-    Description description = runner.getDescription();
-    
-    dumpDescription(description);
-    dumpResult(result);
+    MistletoeRunner webRunner = new MistletoeRunner(MyCollection.class);
+    webRunner.run();
+    dumpDescription(webRunner.myListener, webRunner.description);
+    dumpResult(webRunner.result);
   }
   
-  public static Result run(Runner runner) {
+  
+  public void run() {
+    Computer defaultComputer = new Computer();
+    Request request = Request.classes(defaultComputer, targetClass);
+    Runner runner = request.getRunner();
+    result = run(runner);
+    description = runner.getDescription();
+  }
+  
+  
+  private Result run(Runner runner) {
     Result result = new Result();
     RunListener listener = result.createListener();
     notifier.addFirstListener(listener);
@@ -45,15 +59,15 @@ public class MySuiteRunner {
     return result;
   }
 
-  static void dumpDescription(Description description) {
+  static void dumpDescription(MyRunListener myListener, Description description) {
     if(description.isSuite()) {
-      dumpSuite(description, "");
+      dumpSuite(myListener, description, "");
     } else {
-      dumpTest(description,  "");
+      dumpTest(myListener, description,  "");
     }
   }
   
-  static void dumpTest(Description description, String offset) {
+  static void dumpTest(MyRunListener myListener, Description description, String offset) {
     System.out.println(offset+"T -----");
     System.out.println(offset+"T display name="+description.getDisplayName());
     System.out.println(offset+"T getClassName="+description.getClassName());
@@ -64,7 +78,7 @@ public class MySuiteRunner {
     
   }
 
-  static void dumpSuite(Description description, String offset) {
+  static void dumpSuite(MyRunListener myListener, Description description, String offset) {
     System.out.println(offset+"display name="+description.getDisplayName());
     System.out.println(offset+"getClassName="+description.getClassName());
     System.out.println(offset+"test count="+description.testCount());
@@ -72,9 +86,9 @@ public class MySuiteRunner {
     List<Description> children = description.getChildren();
     for(Description child: children) {
       if(child.isSuite()) {
-        dumpSuite(child, offset + "  ");
+        dumpSuite(myListener, child, offset + "  ");
       } else {
-        dumpTest(child, offset + "  ");
+        dumpTest(myListener, child, offset + "  ");
       }
     }
   }

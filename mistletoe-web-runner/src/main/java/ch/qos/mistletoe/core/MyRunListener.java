@@ -1,4 +1,4 @@
-package ch.qos.mistletoe.suiteRunner;
+package ch.qos.mistletoe.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +10,11 @@ public class MyRunListener extends RunListener {
 
   
   
-  Map<Description, Timer> map = new HashMap<Description, Timer>();
+  Map<Description, StopWatch> map = new HashMap<Description, StopWatch>();
   
   
   long getRunTime(Description d) {
-    Timer t = map.get(d);
+    StopWatch t = map.get(d);
     return t.getDiff();
   }
   /**
@@ -23,9 +23,9 @@ public class MyRunListener extends RunListener {
    * (generally a class and method name)
    */
   public void testStarted(Description description) throws Exception {
-    Timer t = map.get(description);
+    StopWatch t = map.get(description);
     if(t == null) {
-      t = new Timer();
+      t = new StopWatch();
       map.put(description, t);
     }
     t.start = System.currentTimeMillis();
@@ -36,7 +36,7 @@ public class MyRunListener extends RunListener {
    * @param description the description of the test that just ran
    */
   public void testFinished(Description description) throws Exception {
-    Timer t = map.get(description);
+    StopWatch t = map.get(description);
     t.end = System.currentTimeMillis();
   }
 }
