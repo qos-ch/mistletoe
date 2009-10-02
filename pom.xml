@@ -42,13 +42,21 @@
   </modules>
 
   <dependencyManagement>
+    
     <dependencies>      
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.7</version>
       </dependency>     
+
+      <dependency>
+        <groupId>ch.qos.mistletoe</groupId>
+        <artifactId>mistletoe-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>     
     </dependencies>
+
  </dependencyManagement>
 
 

@@ -19,8 +19,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>ch.qos.mistletoe</groupId>
+      <artifactId>mistletoe-core</artifactId>
     </dependency>
   </dependencies> 
 
