@@ -10,12 +10,17 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>mistletoe-servlet</artifactId>
+	<properties>
+		<wicket.version>1.4.2</wicket.version>
+	</properties>
+
+
+  <artifactId>mistletoe-wicket</artifactId>
   <packaging>jar</packaging>
-  <name>Mistletoe Servlet</name>
+  <name>Mistletoe wicket-based web-runner</name>
   
   <url>http://mistletoe.qos.ch</url>
-  <description>Mistletoe Servlet</description>
+  <description>Mistletoe wicket-based web-runner</description>
 
   <dependencies>
     <dependency>
@@ -24,10 +29,11 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket</artifactId>
+      <version>${wicket.version}</version>
     </dependency>
+
 
   </dependencies> 
 

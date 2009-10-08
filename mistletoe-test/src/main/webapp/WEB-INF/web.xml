@@ -18,9 +18,28 @@
   
   <servlet-mapping>
     <servlet-name>MistletoeServlet</servlet-name>
-    <url-pattern>/mistletoe/*</url-pattern>
+    <url-pattern>/servlet/*</url-pattern>
   </servlet-mapping>
  
+  <filter>
+		<filter-name>wicket-mistletoe</filter-name>
+		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+		<init-param>
+			<param-name>applicationClassName</param-name>
+			<param-value>ch.qos.mistletoe.WebRunnerApplication</param-value>
+		</init-param>
+		<init-param>
+			<param-name>filterMappingUrlPattern</param-name>
+			<param-value>/wicket/*</param-value>
+		</init-param>
+
+	</filter>
+
+	<filter-mapping>
+		<filter-name>wicket-mistletoe</filter-name>
+		<url-pattern>/wicket/*</url-pattern>
+	</filter-mapping>
+
        
 </web-app>
 

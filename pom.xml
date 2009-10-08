@@ -39,7 +39,7 @@
 	<modules>
     <module>mistletoe-core</module>
 		<module>mistletoe-wicket</module>
-		<module>mistletoe-wicket-test</module>
+		<module>mistletoe-test</module>
   </modules>
 
   <dependencyManagement>
