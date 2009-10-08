@@ -10,11 +10,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-	<properties>
-		<wicket.version>1.4.2</wicket.version>
-	</properties>
-
-
   <artifactId>mistletoe-wicket</artifactId>
   <packaging>jar</packaging>
   <name>Mistletoe wicket-based web-runner</name>
@@ -23,6 +18,11 @@
   <description>Mistletoe wicket-based web-runner</description>
 
   <dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    
     <dependency>
       <groupId>ch.qos.mistletoe</groupId>
       <artifactId>mistletoe-core</artifactId>
@@ -38,6 +38,23 @@
   </dependencies> 
 
   <build>
+    <resources>
+
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -19,6 +19,10 @@
 
 	<inceptionYear>2009</inceptionYear>
 
+	<properties>
+		<wicket.version>1.4.2</wicket.version>
+		<logback.version>0.9.16</logback.version>
+	</properties>
 
   <licenses>
     <license>
@@ -31,10 +35,6 @@
       <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
     </license>
   </licenses>
-
-
-  <properties>
-  </properties>
 
 	<modules>
     <module>mistletoe-core</module>
@@ -50,6 +50,12 @@
         <artifactId>junit</artifactId>
         <version>4.7</version>
       </dependency>     
+
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>ch.qos.mistletoe</groupId>
