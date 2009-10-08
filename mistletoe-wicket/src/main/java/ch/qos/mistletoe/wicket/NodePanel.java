@@ -1,5 +1,8 @@
 package ch.qos.mistletoe.wicket;
 
+import java.util.Iterator;
+
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -15,32 +18,59 @@ public class NodePanel extends Panel {
 
   boolean expanded = true;
   Node node;
+
   public NodePanel(String id, Node node) {
     super(id);
     this.node = node;
-    
+
     boolean inError = node.payloadList.size() != 0;
-    
+
     AjaxFallbackLink<Object> link = new AjaxFallbackLink<Object>("control") {
       @Override
       public void onClick(AjaxRequestTarget target) {
         System.out.println("*****click and stuff");
         NodePanel nodePanel = (NodePanel) getParent();
-        System.out.println(nodePanel.node);
-        nodePanel.expanded = !nodePanel.expanded;
-        nodePanel.setVisible(nodePanel.expanded);
-        System.out.println("********* expanded="+nodePanel.expanded);
-        if(target != null) {
-          target.addComponent(nodePanel);
+
+    
+        if (!nodePanel.node.isSimple()) {
+          
+          ListView payloadNode = (ListView) nodePanel.get("payload");
+        
+          Iterator<? extends Component> it = payloadNode.iterator();
+          while(it.hasNext()) {
+            Component c = it.next();
+            c.setVisible(false);
+            target.addComponent(c);
+            System.out.println(c);
           }
+          
+          
+          for(Object item: payloadNode.getList()) {
+            //System.out.println(item.getClass());
+          }
+          
+//          if(innerNode == null) {
+//            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
+//            return;
+//          }
+//          nodePanel.expanded = !nodePanel.expanded;
+//          innerNode.setVisible(nodePanel.expanded);
+//          System.out.println("********* expanded=" + nodePanel.expanded);
+//          if (target != null) {
+//            target.addComponent(innerNode);
+//          }
+        }
       }
     };
     add(link);
 
-    
-    link.add(new Label("controlSymbol", expanded ? "-" : "+"));
-   
-    
+    String controlSymbol = "";
+    if (!node.isSimple()) {
+      controlSymbol = expanded ? "-" : "+";
+
+    }
+    link.add(new Label("controlSymbol", controlSymbol));
+
     String src = "../images/tick.png";
     if (inError) {
       src = "../images/cross.png";
@@ -71,12 +101,11 @@ public class NodePanel extends Panel {
         @Override
         protected void populateItem(ListItem<Node> item) {
           Node childNode = item.getModelObject();
-          item.add(new NodePanel("node", childNode));
+          item.add(new NodePanel("node", childNode)).setOutputMarkupId(true);
         }
       });
     }
     setOutputMarkupId(true);
-    
 
   }
 }
