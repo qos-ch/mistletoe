@@ -1,0 +1,21 @@
+
+body {
+  text-align: center
+}
+
+table.node {
+
+}
+
+.description {
+  padding-left: 1ex;
+  text-align: left;  
+}
+
+
+.exception {
+  white-space: pre;
+  margin-left: 1em;  
+  background: #A2AEE8; 
+  font-family: courier, monospace;
+}

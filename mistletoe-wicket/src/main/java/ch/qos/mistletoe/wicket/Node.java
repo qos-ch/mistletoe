@@ -10,7 +10,8 @@ public class Node implements Serializable {
 
   String name;
   List<Node> childrenList = new ArrayList<Node>();
-  List<String> payloadList =  new ArrayList<String>();
+  private List<String> payloadList =  new ArrayList<String>();
+  int payloadCount = 0;
   
   Node(String name) {
     this.name = name;
@@ -22,6 +23,7 @@ public class Node implements Serializable {
 
   public void addPayload(String s) {
     payloadList.add(s);
+    payloadCount++;
   }
 
   public List<String> getPayloadList() {
@@ -46,9 +48,11 @@ public class Node implements Serializable {
     Node nodeA00 = new Node("A00");
     Node nodeA01 = new Node("A01");
     nodeA01.addPayload("java.lang.AssertionError: fail");
-    nodeA01.addPayload("&nbsp;&nbsp;at org.junit.Assert.fail(Assert.java:91)");
-    nodeA01.addPayload("&nbsp;&nbsp;at ch.qos.mistletoe.sample.MyIntegration2.smoke2(MyIntegration2.java:18)");
-    
+    nodeA01.addPayload("  at org.junit.Assert.fail(Assert.java:91)");
+    nodeA01.addPayload("  at ch.qos.mistletoe.sample.MyIntegration2.smoke2(MyIntegration2.java:18)");
+    for(int i = 0; i < 10; i++) {
+      nodeA01.addPayload("  at asasd.asasd.asdasd(asdasd.java:"+i+")");
+    }
     Node nodeA1 = new Node("A1");
     
     nodeA.add(nodeA0);

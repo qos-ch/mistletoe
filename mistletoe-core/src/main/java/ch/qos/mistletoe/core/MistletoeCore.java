@@ -11,8 +11,6 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 
-import ch.qos.mistletoe.sample.MyCollection;
-
 public class MistletoeCore {
 
   private final Class<?> targetClass;
@@ -24,7 +22,7 @@ public class MistletoeCore {
   // result of the run
   Result result;
   
-  MistletoeCore(Class<?> targetClass) {
+  public MistletoeCore(Class<?> targetClass) {
     this.targetClass = targetClass;
   }
 
@@ -42,14 +40,6 @@ public class MistletoeCore {
   }
 
 
-  public static void main(String[] args) {
-    MistletoeCore mCore = new MistletoeCore(MyCollection.class);
-    mCore.run();
-    dumpDescription(mCore.swRunListener, mCore.description);
-    dumpResult(mCore.result);
-  }
-  
-  
   public void run() {
     Computer defaultComputer = new Computer();
     Request request = Request.classes(defaultComputer, targetClass);
@@ -75,6 +65,26 @@ public class MistletoeCore {
     return result;
   }
 
+  public boolean hasAssociatedFailures(Description d) {
+    List<Failure> failureList = result.getFailures();
+
+    for(Failure f: failureList) {
+      if(f.getDescription().equals(d)) {
+        return true;
+      }
+      if(description.isTest()) {
+        return false;
+      }
+      List<Description> descriptionList = d.getChildren();
+      for(Description child: descriptionList) {
+        if(hasAssociatedFailures(child)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
   static void dumpDescription(StopWatchRunListener myListener, Description description) {
     if(description.isSuite()) {
       dumpSuite(myListener, description, "");

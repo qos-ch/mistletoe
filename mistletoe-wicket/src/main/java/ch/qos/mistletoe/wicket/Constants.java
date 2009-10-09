@@ -10,8 +10,12 @@ public class Constants {
   static final String PAYLOAD = "payload";
   static final String NODE = "node";
   
-  static final String TESTOK_GIF = "../images/testok.gif";
-  static final String TESTFAIL_GIF = "../images/testfail.gif";
-  static final String BLANK_GIF = "../images/blank.gif";
+  static final String TEST_OK_GIF = "images/testok.gif";
+  static final String TEST_ERROR_GIF = "images/testerr.gif";
+
+  static final String TSUITE_OK_GIF = "images/tsuiteok.gif";
+  static final String TSUITE_ERROR_GIF = "images/tsuiteerror.gif";
+
+  static final String BLANK_GIF = "images/blank.gif";
 
 }

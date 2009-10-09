@@ -29,6 +29,14 @@
     </dependency>
 
     <dependency>
+      <groupId>ch.qos.mistletoe</groupId>
+      <artifactId>mistletoe-core</artifactId>
+      <type>test-jar</type>
+      <version>${project.version}</version>
+    </dependency>
+
+
+    <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket</artifactId>
       <version>${wicket.version}</version>
