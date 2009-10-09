@@ -17,86 +17,83 @@ import org.junit.runner.notification.Failure;
 
 import ch.qos.mistletoe.core.MistletoeCore;
 
-@SuppressWarnings("serial")
 public class DescriptionPanel extends Panel {
+  private static final long serialVersionUID = 2645889186544792364L;
 
   MistletoeCore core;
   Description description;
   Failure f;
-  public DescriptionPanel(String id, Description node, MistletoeCore core) {
+
+  public DescriptionPanel(String id, Description description, MistletoeCore core) {
     super(id);
     this.core = core;
-    this.description = node;
-     f = findFailure();
-    
-    if (node.isTest()) {
+    this.description = description;
+    f = findFailure();
+
+    if (description.isTest()) {
       handleBlankPlaceHolderImage();
     } else {
       TreeExpansionLink link = new TreeExpansionLink(Constants.TREE_CONTROL);
       add(link);
     }
 
-    handleResultImage(node);
-    add(new Label(Constants.NAME, node.getDisplayName()));
-    
-   
-    
-    
-    if (node.isTest() && f == null) {
-      handleSimple_OK_Node();
+    handleResultImage(description);
+    add(new Label(Constants.NAME, description.getDisplayName()));
+
+    if (description.isTest() && f == null) {
+      handleSimple_OK_Description();
     } else if (f != null) {
-      handle_NOT_OK_Node();
+      handle_NOT_OK_Description();
     } else {
-      handleNodeWithChildren();
+      handleDescriptionWithChildren();
     }
     setOutputMarkupId(true);
   }
 
   Failure findFailure() {
-    
     Result r = core.getResult();
-    
     List<Failure> failureList = r.getFailures();
     System.out.println("in findFailure===================");
-    for(Failure f: failureList) {
-      
+    for (Failure f : failureList) {
       System.out.println(f);
-      System.out.println("this.description="+description);
-      System.out.println("f.description="+f.getDescription() );
-      if(f.getDescription().equals(description)) {
+      System.out.println("this.description=" + description);
+      System.out.println("f.description=" + f.getDescription());
+      if (f.getDescription().equals(description)) {
         System.out.println("*****match");
         return f;
       }
     }
     return null;
   }
-   
-  void handleNodeWithChildren() {
-    ListView<Description> listView = new ListView<Description>(Constants.PAYLOAD, description
-        .getChildren()) {
+
+  void handleDescriptionWithChildren() {
+    ListView<Description> listView = new ListView<Description>(
+        Constants.PAYLOAD, description.getChildren()) {
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void populateItem(ListItem<Description> item) {
         Description childNode = item.getModelObject();
-        item.add(new DescriptionPanel(Constants.NODE, childNode, core)).setOutputMarkupId(
-            true);
+        item.add(new DescriptionPanel(Constants.NODE, childNode, core))
+            .setOutputMarkupId(true);
       }
     };
     listView.setOutputMarkupId(true);
     add(listView);
   }
 
-  void handleSimple_OK_Node() {
+  void handleSimple_OK_Description() {
     final WebMarkupContainer parent = new WebMarkupContainer(Constants.PAYLOAD);
     add(parent);
     parent.add(new EmptyPanel(Constants.NODE).setVisible(false));
   }
 
-  void handle_NOT_OK_Node() {
+  void handle_NOT_OK_Description() {
     StringBuffer buf = new StringBuffer();
-     Throwable t = f.getException();
-    
-     StackTraceElement[] steArray = t.getStackTrace();
-     
+    Throwable t = f.getException();
+
+    StackTraceElement[] steArray = t.getStackTrace();
+
     for (StackTraceElement se : steArray) {
       buf.append(se);
       buf.append("<br/>");
@@ -135,7 +132,7 @@ public class DescriptionPanel extends Panel {
 
     String testResultSrc = null;
     if (isSuite) {
-      
+
       if (core.hasAssociatedFailures(description)) {
         testResultSrc = Constants.TSUITE_ERROR_GIF;
       } else {
