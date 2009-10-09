@@ -1,10 +1,5 @@
 package ch.qos.mistletoe.wicket;
 
-import java.util.Iterator;
-
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -16,7 +11,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 @SuppressWarnings("serial")
 public class NodePanel extends Panel {
 
-  boolean expanded = true;
   Node node;
 
   public NodePanel(String id, Node node) {
@@ -25,64 +19,34 @@ public class NodePanel extends Panel {
 
     boolean inError = node.payloadList.size() != 0;
 
-    AjaxFallbackLink<Object> link = new AjaxFallbackLink<Object>("control") {
-      @Override
-      public void onClick(AjaxRequestTarget target) {
-        System.out.println("*****click and stuff");
-        NodePanel nodePanel = (NodePanel) getParent();
+    if (node.isSimple()) {
+      final WebMarkupContainer parent = new WebMarkupContainer(
+          Constants.TREE_CONTROL);
+      parent.add(new SimpleAttributeModifier("style", "cursor: default;"));
 
-    
-        if (!nodePanel.node.isSimple()) {
-          
-          ListView payloadNode = (ListView) nodePanel.get("payload");
-        
-          Iterator<? extends Component> it = payloadNode.iterator();
-          while(it.hasNext()) {
-            Component c = it.next();
-            c.setVisible(false);
-            target.addComponent(c);
-            System.out.println(c);
-          }
-          
-          
-          for(Object item: payloadNode.getList()) {
-            //System.out.println(item.getClass());
-          }
-          
-//          if(innerNode == null) {
-//            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
-//            return;
-//          }
-//          nodePanel.expanded = !nodePanel.expanded;
-//          innerNode.setVisible(nodePanel.expanded);
-//          System.out.println("********* expanded=" + nodePanel.expanded);
-//          if (target != null) {
-//            target.addComponent(innerNode);
-//          }
-        }
-      }
-    };
-    add(link);
-
-    String controlSymbol = "";
-    if (!node.isSimple()) {
-      controlSymbol = expanded ? "-" : "+";
-
+      Label label = new Label(Constants.TREE_CONTROL_SYMBOL);
+      label.add(new SimpleAttributeModifier("src", Constants.BLANK_GIF));
+      label.setEnabled(false);
+      parent.add(label);
+      add(parent);
+    } else {
+      TreeExpansionLink link = new TreeExpansionLink(Constants.TREE_CONTROL);
+      add(link);
     }
-    link.add(new Label("controlSymbol", controlSymbol));
 
-    String src = "../images/tick.png";
+    String testResultSrc = Constants.TESTOK_GIF;
     if (inError) {
-      src = "../images/cross.png";
+      testResultSrc = Constants.TESTFAIL_GIF;
     }
-
-    add(new Label("image", "").add(new SimpleAttributeModifier("src", src)));
-    add(new Label("name", node.getName()));
+    add(new Label(Constants.IMAGE, "").add(new SimpleAttributeModifier("src",
+        testResultSrc)));
+    add(new Label(Constants.NAME, node.getName()));
 
     if (node.isSimple() && node.payloadList.size() == 0) {
-      final WebMarkupContainer parent = new WebMarkupContainer("payload");
+      final WebMarkupContainer parent = new WebMarkupContainer(
+          Constants.PAYLOAD);
       add(parent);
-      parent.add(new EmptyPanel("node").setVisible(false));
+      parent.add(new EmptyPanel(Constants.NODE).setVisible(false));
     } else if (node.payloadList.size() != 0) {
       System.out.println("***********");
       StringBuffer buf = new StringBuffer();
@@ -90,20 +54,25 @@ public class NodePanel extends Panel {
         buf.append(s);
         buf.append("<br/>");
       }
-      final WebMarkupContainer parent = new WebMarkupContainer("payload");
+      final WebMarkupContainer parent = new WebMarkupContainer(
+          Constants.PAYLOAD);
       add(parent);
-      parent.add(new Label("node", buf.toString()).setEscapeModelStrings(false)
-          .add(
+      parent.add(new Label(Constants.NODE, buf.toString())
+          .setEscapeModelStrings(false).add(
               new SimpleAttributeModifier("style",
                   "text: white-space: pre; color: grey;")));
     } else {
-      add(new ListView<Node>("payload", node.getChildrenList()) {
+      ListView<Node> listView = new ListView<Node>(Constants.PAYLOAD, node
+          .getChildrenList()) {
         @Override
         protected void populateItem(ListItem<Node> item) {
           Node childNode = item.getModelObject();
-          item.add(new NodePanel("node", childNode)).setOutputMarkupId(true);
+          item.add(new NodePanel(Constants.NODE, childNode)).setOutputMarkupId(
+              true);
         }
-      });
+      };
+      listView.setOutputMarkupId(true);
+      add(listView);
     }
     setOutputMarkupId(true);
 
