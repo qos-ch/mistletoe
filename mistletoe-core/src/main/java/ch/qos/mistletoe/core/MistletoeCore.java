@@ -1,5 +1,6 @@
 package ch.qos.mistletoe.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.runner.Computer;
@@ -16,17 +17,16 @@ public class MistletoeCore {
   private final Class<?> targetClass;
   private final RunNotifier notifier = new RunNotifier();
   private final StopWatchRunListener swRunListener = new StopWatchRunListener();
-  
+
   // description of the suite run
   Description description;
   // result of the run
   Result result;
-  
+
   public MistletoeCore(Class<?> targetClass) {
     this.targetClass = targetClass;
   }
 
-  
   public Description getDescription() {
     return description;
   }
@@ -39,22 +39,25 @@ public class MistletoeCore {
     return swRunListener;
   }
 
-
   public void run() {
     Computer defaultComputer = new Computer();
     Request request = Request.classes(defaultComputer, targetClass);
     Runner runner = request.getRunner();
     result = run(runner);
     description = runner.getDescription();
+    
+    List<Failure> failureList = new ArrayList<Failure>(result.getFailures());
+    
+    TestReport testReport = new TestReport(description, failureList);
   }
-  
-  
+
+
   private Result run(Runner runner) {
     Result result = new Result();
     RunListener listener = result.createListener();
     notifier.addFirstListener(listener);
     notifier.addListener(swRunListener);
-    
+
     try {
       notifier.fireTestRunStarted(runner.getDescription());
       runner.run(notifier);
@@ -68,50 +71,57 @@ public class MistletoeCore {
   public boolean hasAssociatedFailures(Description d) {
     List<Failure> failureList = result.getFailures();
 
-    for(Failure f: failureList) {
-      if(f.getDescription().equals(d)) {
+    for (Failure f : failureList) {
+      if (f.getDescription().equals(d)) {
         return true;
       }
-      if(description.isTest()) {
+      if (description.isTest()) {
         return false;
       }
       List<Description> descriptionList = d.getChildren();
-      for(Description child: descriptionList) {
-        if(hasAssociatedFailures(child)) {
+      for (Description child : descriptionList) {
+        if (hasAssociatedFailures(child)) {
           return true;
         }
       }
     }
     return false;
   }
-  
-  static void dumpDescription(StopWatchRunListener myListener, Description description) {
-    if(description.isSuite()) {
+
+  static void dumpDescription(StopWatchRunListener myListener,
+      Description description) {
+    if (description.isSuite()) {
       dumpSuite(myListener, description, "");
     } else {
-      dumpTest(myListener, description,  "");
+      dumpTest(myListener, description, "");
     }
   }
-  
-  static void dumpTest(StopWatchRunListener myListener, Description description, String offset) {
-    System.out.println(offset+"T -----");
-    System.out.println(offset+"T display name="+description.getDisplayName());
-    System.out.println(offset+"T getClassName="+description.getClassName());
-    System.out.println(offset+"T getMethodName="+description.getMethodName());
-    System.out.println(offset+"T test count="+description.testCount());
-    System.out.println(offset+"T getAnnotations="+description.getAnnotations());
-    System.out.println(offset+"T runtime ="+myListener.getRunTime(description));
-    
+
+  static void dumpTest(StopWatchRunListener myListener,
+      Description description, String offset) {
+    System.out.println(offset + "T -----");
+    System.out.println(offset + "T display name="
+        + description.getDisplayName());
+    System.out.println(offset + "T getClassName=" + description.getClassName());
+    System.out.println(offset + "T getMethodName="
+        + description.getMethodName());
+    System.out.println(offset + "T test count=" + description.testCount());
+    System.out.println(offset + "T getAnnotations="
+        + description.getAnnotations());
+    System.out.println(offset + "T runtime ="
+        + myListener.getRunTime(description));
+
   }
 
-  static void dumpSuite(StopWatchRunListener myListener, Description description, String offset) {
-    System.out.println(offset+"display name="+description.getDisplayName());
-    System.out.println(offset+"getClassName="+description.getClassName());
-    System.out.println(offset+"test count="+description.testCount());
-   
+  static void dumpSuite(StopWatchRunListener myListener,
+      Description description, String offset) {
+    System.out.println(offset + "display name=" + description.getDisplayName());
+    System.out.println(offset + "getClassName=" + description.getClassName());
+    System.out.println(offset + "test count=" + description.testCount());
+
     List<Description> children = description.getChildren();
-    for(Description child: children) {
-      if(child.isSuite()) {
+    for (Description child : children) {
+      if (child.isSuite()) {
         dumpSuite(myListener, child, offset + "  ");
       } else {
         dumpTest(myListener, child, offset + "  ");
@@ -120,13 +130,13 @@ public class MistletoeCore {
   }
 
   static void dumpResult(Result result) {
-    System.out.println("Failure count="+result.getFailureCount());
-    System.out.println("Run count="+result.getRunCount());
-    
+    System.out.println("Failure count=" + result.getFailureCount());
+    System.out.println("Run count=" + result.getRunCount());
+
     List<Failure> failureList = result.getFailures();
-    for(Failure f: failureList) {
-      System.out.println("header="+f.getTestHeader());
-      System.out.println("msg="+f.getMessage());
+    for (Failure f : failureList) {
+      System.out.println("header=" + f.getTestHeader());
+      System.out.println("msg=" + f.getMessage());
       System.out.println(f.getTrace());
     }
   }

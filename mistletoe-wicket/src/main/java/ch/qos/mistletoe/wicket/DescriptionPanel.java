@@ -20,9 +20,9 @@ import ch.qos.mistletoe.core.MistletoeCore;
 public class DescriptionPanel extends Panel {
   private static final long serialVersionUID = 2645889186544792364L;
 
-  MistletoeCore core;
-  Description description;
-  Failure f;
+  transient MistletoeCore core;
+  transient Description description;
+  transient Failure f;
 
   public DescriptionPanel(String id, Description description, MistletoeCore core) {
     super(id);
