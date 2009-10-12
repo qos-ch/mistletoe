@@ -2,20 +2,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Tree</title>
-
-    <div wicket:id="feedback"></div>
-
-    <form wicket:id="form">
-      Text field: <input type="text" wicket:id="testClassName" />
-      <input type="submit" value="Run" />
-    </form>
-
     <wicket:link>
       <link rel="stylesheet" type="text/css" href="css/style.css" />
     </wicket:link>
   </head>
 <body>
+
+  <div wicket:id="feedback"></div>
+
+  <p align:"left">
+    <form wicket:id="form">
+      Text field: <input type="text" wicket:id="testClassName" />
+      <input type="submit" value="Run" />
+    </form>
+  </p>
+
+  <table wicket:id="summary" width="40em">    
+    <tr>
+      <td wicket:id="runsSummary">Runs: 1/2</td>
+      <td> wicket:id="errosSummary"> Errors/Failures: 12</td>
+    </tr>
+    <tr>
+      <!-- green #66bb66 -->
+      <!-- bordeaux #885555 -->
+      <td wicket:id="summaryInColor" 
+      colspan="2" style="background: #BB4444; border: 1px solid black">&nbsp;</td>
+    </tr>
+  </table>
+  
   <div wicket:id="node"></div>
+
 </body>
 </html>
 
