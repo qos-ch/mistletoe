@@ -1,6 +1,17 @@
+/**
+ * Mistletoe: a junit extension for integration testing
+ * Copyright (C) 2009, QOS.ch. All rights reserved.
+ *
+ * This program and the accompanying materials are dual-licensed under
+ * either the terms of the Eclipse Public License v1.0 as published by
+ * the Eclipse Foundation
+ *
+ *   or (per the licensee's choosing)
+ *
+ * under the terms of the GNU Lesser General Public License version 2.1
+ * as published by the Free Software Foundation.
+ */
 package ch.qos.mistletoe.wicket;
-
-import java.util.List;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -11,38 +22,34 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.EmptyPanel;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.junit.runner.Description;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 
 import ch.qos.mistletoe.core.MistletoeCore;
+import ch.qos.mistletoe.core.TestReport;
+import ch.qos.mistletoe.wicket.helper.ExceptionHelper;
 
-public class DescriptionPanel extends Panel {
+public class TestReportPanel extends Panel {
   private static final long serialVersionUID = 2645889186544792364L;
 
   transient MistletoeCore core;
-  transient Description description;
-  transient Failure f;
+  transient TestReport testReport;
 
-  public DescriptionPanel(String id, Description description, MistletoeCore core) {
+  public TestReportPanel(String id, TestReport testReport) {
     super(id);
-    this.core = core;
-    this.description = description;
-    f = findFailure();
+    this.testReport = testReport;
 
-    if (description.isTest()) {
+    if (testReport.isTest()) {
       handleBlankPlaceHolderImage();
     } else {
       TreeExpansionLink link = new TreeExpansionLink(Constants.TREE_CONTROL);
       add(link);
     }
 
-    handleResultImage(description);
-    add(new Label(Constants.NAME, description.getDisplayName()));
+    handleResultImage(testReport);
+    add(new Label(Constants.NAME, testReport.getDisplayName()));
 
-    if (description.isTest() && f == null) {
+    if (testReport.isTest() && testReport.getThrowable() == null) {
       handleSimple_OK_Description();
-    } else if (f != null) {
+    } else if (testReport.getThrowable() != null) {
       handle_NOT_OK_Description();
     } else {
       handleDescriptionWithChildren();
@@ -50,31 +57,15 @@ public class DescriptionPanel extends Panel {
     setOutputMarkupId(true);
   }
 
-  Failure findFailure() {
-    Result r = core.getResult();
-    List<Failure> failureList = r.getFailures();
-    System.out.println("in findFailure===================");
-    for (Failure f : failureList) {
-      System.out.println(f);
-      System.out.println("this.description=" + description);
-      System.out.println("f.description=" + f.getDescription());
-      if (f.getDescription().equals(description)) {
-        System.out.println("*****match");
-        return f;
-      }
-    }
-    return null;
-  }
-
   void handleDescriptionWithChildren() {
-    ListView<Description> listView = new ListView<Description>(
-        Constants.PAYLOAD, description.getChildren()) {
+    ListView<TestReport> listView = new ListView<TestReport>(
+        Constants.PAYLOAD, testReport.getChildren()) {
       private static final long serialVersionUID = 1L;
 
       @Override
-      protected void populateItem(ListItem<Description> item) {
-        Description childNode = item.getModelObject();
-        item.add(new DescriptionPanel(Constants.NODE, childNode, core))
+      protected void populateItem(ListItem<TestReport> item) {
+        TestReport childNode = item.getModelObject();
+        item.add(new TestReportPanel(Constants.NODE, childNode))
             .setOutputMarkupId(true);
       }
     };
@@ -89,28 +80,23 @@ public class DescriptionPanel extends Panel {
   }
 
   void handle_NOT_OK_Description() {
-    StringBuffer buf = new StringBuffer();
-    Throwable t = f.getException();
+    Throwable t = testReport.getThrowable();
 
-    StackTraceElement[] steArray = t.getStackTrace();
-
-    for (StackTraceElement se : steArray) {
-      buf.append(se);
-      buf.append("<br/>");
-    }
+    ExceptionHelper ex = new ExceptionHelper(t);
+    
+    
     final WebMarkupContainer parent = new WebMarkupContainer(Constants.PAYLOAD);
     add(parent);
-    Label exception = new Label(Constants.NODE, buf.toString());
+    Label exception = new Label(Constants.NODE, ex.asString());
     exception.setEscapeModelStrings(false);
     exception.add(new SimpleAttributeModifier("class", "exception"));
     parent.add(exception);
 
-    if (steArray.length > 20) {
+    if (ex.getLines() > 20) {
       SimpleAttributeModifier sam = new SimpleAttributeModifier("style",
           "height: 40em; overflow: scroll;");
       exception.add(sam);
     }
-
   }
 
   void handleBlankPlaceHolderImage() {
@@ -121,25 +107,24 @@ public class DescriptionPanel extends Panel {
     parent.add(new SimpleAttributeModifier("style", "cursor: default;"));
 
     Image image = new Image(Constants.TREE_CONTROL_SYMBOL,
-        new ResourceReference(DescriptionPanel.class, Constants.BLANK_GIF));
+        new ResourceReference(TestReportPanel.class, Constants.BLANK_GIF));
     parent.add(image);
     add(parent);
   }
 
-  void handleResultImage(Description description) {
-    boolean inError = (f != null);
+  void handleResultImage(TestReport description) {
+    boolean hasFailures = description.hasFailures();
     boolean isSuite = description.isSuite();
 
     String testResultSrc = null;
     if (isSuite) {
-
-      if (core.hasAssociatedFailures(description)) {
+      if (hasFailures) {
         testResultSrc = Constants.TSUITE_ERROR_GIF;
       } else {
         testResultSrc = Constants.TSUITE_OK_GIF;
       }
     } else {
-      if (inError) {
+      if (hasFailures) {
         testResultSrc = Constants.TEST_ERROR_GIF;
       } else {
         testResultSrc = Constants.TEST_OK_GIF;
@@ -147,7 +132,7 @@ public class DescriptionPanel extends Panel {
     }
 
     Image image = new Image(Constants.IMAGE, new ResourceReference(
-        DescriptionPanel.class, testResultSrc));
+        TestReportPanel.class, testResultSrc));
     add(image);
   }
 }

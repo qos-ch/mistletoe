@@ -33,6 +33,11 @@
 			<param-value>/wicket/*</param-value>
 		</init-param>
 
+		<init-param>
+			<param-name>testTarget</param-name>
+			<param-value>ch.qos.mistletoe.sample.MyCollection</param-value>
+		</init-param>
+
 	</filter>
 
 	<filter-mapping>

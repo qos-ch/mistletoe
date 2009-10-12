@@ -1,3 +1,16 @@
+/**
+ * Mistletoe: a junit extension for integration testing
+ * Copyright (C) 2009, QOS.ch. All rights reserved.
+ *
+ * This program and the accompanying materials are dual-licensed under
+ * either the terms of the Eclipse Public License v1.0 as published by
+ * the Eclipse Foundation
+ *
+ *   or (per the licensee's choosing)
+ *
+ * under the terms of the GNU Lesser General Public License version 2.1
+ * as published by the Free Software Foundation.
+ */
 package ch.qos.mistletoe.core;
 
 import java.io.Serializable;
@@ -11,30 +24,40 @@ public class TestReport implements Serializable {
 
   private static final long serialVersionUID = -1196521748389497981L;
 
-  String displayName;
-  String className;
-  String methodName;
+  final String displayName;
+  final String className;
+  final String methodName;
 
-  Throwable throwable;
-  double runtime;
+  final Throwable throwable;
+  final double runtime;
   
   // ArrayList instead of List to enforce Serializablity
-  ArrayList<TestReport> children = new ArrayList<TestReport>();
+  final ArrayList<TestReport> children = new ArrayList<TestReport>();
 
-  public TestReport(Description description, List<Failure> failureList) {
+  public TestReport(Description description, MistletoeCore mCore) {
     this.displayName = description.getDisplayName();
     this.className = description.getClassName();
     this.methodName = description.getMethodName();
+    this.runtime = findRuntime(description, mCore);
     
-    Failure associatedFailure = findAssociatedFailure(description, failureList);
-    this.throwable = associatedFailure.getException();
+    Failure associatedFailure = findAssociatedFailure(description, mCore.result.getFailures());
+    if(associatedFailure != null) {
+      this.throwable = associatedFailure.getException();
+    } else {
+      this.throwable = null;
+    }
     
     for (Description childDescription : description.getChildren()) {
-      TestReport childTR = new TestReport(childDescription, failureList);
+      TestReport childTR = new TestReport(childDescription, mCore);
       children.add(childTR);
     }
   }
 
+  double findRuntime(Description d, MistletoeCore mCore) {
+    StopWatchRunListener swRunListener = mCore.getStopWatchRunListener();
+    return swRunListener.getRunTime(d);
+  }
+  
   private Failure findAssociatedFailure(Description d, List<Failure> failureList) {
     for(Failure f: failureList) {
       if(f.getDescription().equals(d)) {
@@ -53,16 +76,10 @@ public class TestReport implements Serializable {
     return runtime;
   }
 
-  public void setRuntime(long runtime) {
-    this.runtime = runtime;
-  }
+
 
   public List<TestReport> getChildren() {
     return children;
-  }
-
-  public void setChildren(ArrayList<TestReport> children) {
-    this.children = children;
   }
 
   public boolean isSuite() {
@@ -73,7 +90,7 @@ public class TestReport implements Serializable {
     return getChildren().isEmpty();
   }
 
-  boolean hasFailures() {
+  public boolean hasFailures() {
     if (throwable != null) {
       return true;
     }
@@ -82,6 +99,10 @@ public class TestReport implements Serializable {
         return true;
     }
     return false;
+  }
+
+  public Throwable getThrowable() {
+    return throwable;
   }
 
   public double cumulativedRuntime() {

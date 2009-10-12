@@ -1,6 +1,18 @@
+/**
+ * Mistletoe: a junit extension for integration testing
+ * Copyright (C) 2009, QOS.ch. All rights reserved.
+ *
+ * This program and the accompanying materials are dual-licensed under
+ * either the terms of the Eclipse Public License v1.0 as published by
+ * the Eclipse Foundation
+ *
+ *   or (per the licensee's choosing)
+ *
+ * under the terms of the GNU Lesser General Public License version 2.1
+ * as published by the Free Software Foundation.
+ */
 package ch.qos.mistletoe.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.runner.Computer;
@@ -16,7 +28,8 @@ public class MistletoeCore {
 
   private final Class<?> targetClass;
   private final RunNotifier notifier = new RunNotifier();
-  private final StopWatchRunListener swRunListener = new StopWatchRunListener();
+  
+  final StopWatchRunListener swRunListener = new StopWatchRunListener();
 
   // description of the suite run
   Description description;
@@ -25,6 +38,10 @@ public class MistletoeCore {
 
   public MistletoeCore(Class<?> targetClass) {
     this.targetClass = targetClass;
+  }
+
+  public MistletoeCore(String targetClassStr) throws ClassNotFoundException {
+    this(Class.forName(targetClassStr));
   }
 
   public Description getDescription() {
@@ -39,16 +56,15 @@ public class MistletoeCore {
     return swRunListener;
   }
 
-  public void run() {
+  public TestReport run() {
     Computer defaultComputer = new Computer();
     Request request = Request.classes(defaultComputer, targetClass);
     Runner runner = request.getRunner();
     result = run(runner);
     description = runner.getDescription();
     
-    List<Failure> failureList = new ArrayList<Failure>(result.getFailures());
-    
-    TestReport testReport = new TestReport(description, failureList);
+    TestReport testReport = new TestReport(description, this);
+    return testReport;
   }
 
 

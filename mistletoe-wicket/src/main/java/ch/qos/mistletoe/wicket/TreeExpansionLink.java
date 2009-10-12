@@ -1,11 +1,21 @@
+/**
+ * Mistletoe: a junit extension for integration testing
+ * Copyright (C) 2009, QOS.ch. All rights reserved.
+ *
+ * This program and the accompanying materials are dual-licensed under
+ * either the terms of the Eclipse Public License v1.0 as published by
+ * the Eclipse Foundation
+ *
+ *   or (per the licensee's choosing)
+ *
+ * under the terms of the GNU Lesser General Public License version 2.1
+ * as published by the Free Software Foundation.
+ */
 package ch.qos.mistletoe.wicket;
-
-import java.util.List;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.behavior.IBehavior;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListView;
 
@@ -18,14 +28,10 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
 
   public TreeExpansionLink(String id) {
     super(id);
-    String controlSymbolValue = EXPAND_GIF;
-    if (expanded) {
-      controlSymbolValue = COLLAPSE_GIF;
-    }
-    Image image = new Image(Constants.TREE_CONTROL_SYMBOL,
-        new ResourceReference(DescriptionPanel.class, controlSymbolValue));
-
+    ResourceReference ref = getControlSymbolResourceReference(expanded);
+    Image image = new Image(Constants.TREE_CONTROL_SYMBOL, ref);
     image.setOutputMarkupId(true);
+
     this.add(image);
   }
 
@@ -33,29 +39,20 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
   @Override
   public void onClick(AjaxRequestTarget target) {
     System.out.println("*****clicked on ajax link");
-    DescriptionPanel nodePanel = (DescriptionPanel) getParent();
+    TestReportPanel nodePanel = (TestReportPanel) getParent();
 
-    if (!nodePanel.description.isTest()) {
+    if (nodePanel.testReport.isSuite()) {
       expanded = !expanded;
       System.out.println("expanded=" + expanded);
 
       TreeExpansionLink link = (TreeExpansionLink) nodePanel
           .get(Constants.TREE_CONTROL);
-      Image image = (Image) link.get(Constants.TREE_CONTROL_SYMBOL);
 
       target.addComponent(link.getParent());
 
-      List<IBehavior> bList = image.getBehaviors();
-      for (IBehavior b : bList) {
-        if (b instanceof MyAttributeModifier) {
-          MyAttributeModifier attrModifier = (MyAttributeModifier) b;
-          if (expanded) {
-            attrModifier.setValue(COLLAPSE_GIF);
-          } else {
-            attrModifier.setValue(EXPAND_GIF);
-          }
-        }
-      }
+      Image image = (Image) link.get(Constants.TREE_CONTROL_SYMBOL);
+      ResourceReference ref = getControlSymbolResourceReference(expanded);
+            image.setImageResourceReference(ref);
 
       ListView<Node> payloadNode = (ListView<Node>) nodePanel
           .get(Constants.PAYLOAD);
@@ -63,14 +60,14 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
 
       // can't update a ListView
       target.addComponent(payloadNode.getParent());
-
-      // Iterator<? extends Component> it = payloadNode.iterator();
-      // while (it.hasNext()) {
-      // Component c = it.next();
-      // c.setVisible(expanded);
-      // target.addComponent(c);
-      // }
     }
   }
 
+  ResourceReference getControlSymbolResourceReference(boolean expanded) {
+    String raw = EXPAND_GIF;
+    if (expanded) {
+      raw = COLLAPSE_GIF;
+    }
+    return new ResourceReference(TestReportPanel.class, raw);
+  }
 }
