@@ -40,7 +40,11 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
   public void onClick(AjaxRequestTarget target) {
     System.out.println("*****clicked on ajax link");
     TestReportPanel nodePanel = (TestReportPanel) getParent();
-
+    if(nodePanel == null) {
+      warn("Failed to find node panel");
+      return;
+    }
+    
     if (nodePanel.testReport.isSuite()) {
       expanded = !expanded;
       System.out.println("expanded=" + expanded);
