@@ -15,13 +15,25 @@ package ch.qos.mistletoe.wicket;
 
 public class Constants {
 
-  static final String TREE_CONTROL = "treeControl";
-  static final String TREE_CONTROL_SYMBOL = "treeControlSymbol";
-  static final String NAME = "name";
-  static final String IMAGE = "image";
+static final String TEST_TARGET_KEY = "testTarget";
 
-  static final String PAYLOAD = "payload";
-  static final String NODE = "node";
+  static final String FEEDBACK_ID = "feedback";
+  static final String RUN_FORM_ID = "runForm";
+
+  static final String TEST_CLASS_NAME_ID = "testClassName";
+  static final String TREE_CONTROL_ID = "treeControl";
+  static final String TREE_CONTROL_SYMBOL_ID = "treeControlSymbol";
+  static final String NAME_ID = "name";
+  static final String IMAGE_ID = "image";
+
+  static final String PAYLOAD_ID = "payload";
+  static final String NODE_ID = "node";
+  
+  static final String SUMMARY_ID = "summary";
+  static final String RUNS_SUMMARY_ID = "runsSummary";
+                                           
+  static final String ERRORS_SUMMARY_ID = "errorsSummary";  
+  static final String SUMMARY_IN_COLOR_ID = "summaryInColor";  
   
   static final String TEST_OK_GIF = "images/testok.gif";
   static final String TEST_ERROR_GIF = "images/testerr.gif";
@@ -31,4 +43,7 @@ public class Constants {
 
   static final String BLANK_GIF = "images/blank.gif";
 
+  static final String FAILURE_COLOR = "#BB4444";
+  static final String SUCCESS_COLOR = "#66bb66";
+  
 }

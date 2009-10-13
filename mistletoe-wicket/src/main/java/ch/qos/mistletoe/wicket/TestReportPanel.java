@@ -40,12 +40,12 @@ public class TestReportPanel extends Panel {
     if (testReport.isTest()) {
       handleBlankPlaceHolderImage();
     } else {
-      TreeExpansionLink link = new TreeExpansionLink(Constants.TREE_CONTROL);
+      TreeExpansionLink link = new TreeExpansionLink(Constants.TREE_CONTROL_ID);
       add(link);
     }
 
     handleResultImage(testReport);
-    add(new Label(Constants.NAME, testReport.getDisplayName()));
+    add(new Label(Constants.NAME_ID, testReport.getDisplayName()));
 
     if (testReport.isTest() && testReport.getThrowable() == null) {
       handleSimple_OK_Description();
@@ -54,18 +54,19 @@ public class TestReportPanel extends Panel {
     } else {
       handleDescriptionWithChildren();
     }
+    
     setOutputMarkupId(true);
   }
 
   void handleDescriptionWithChildren() {
     ListView<TestReport> listView = new ListView<TestReport>(
-        Constants.PAYLOAD, testReport.getChildren()) {
+        Constants.PAYLOAD_ID, testReport.getChildren()) {
       private static final long serialVersionUID = 1L;
 
       @Override
       protected void populateItem(ListItem<TestReport> item) {
         TestReport childNode = item.getModelObject();
-        item.add(new TestReportPanel(Constants.NODE, childNode))
+        item.add(new TestReportPanel(Constants.NODE_ID, childNode))
             .setOutputMarkupId(true);
       }
     };
@@ -74,9 +75,9 @@ public class TestReportPanel extends Panel {
   }
 
   void handleSimple_OK_Description() {
-    final WebMarkupContainer parent = new WebMarkupContainer(Constants.PAYLOAD);
+    final WebMarkupContainer parent = new WebMarkupContainer(Constants.PAYLOAD_ID);
     add(parent);
-    parent.add(new EmptyPanel(Constants.NODE).setVisible(false));
+    parent.add(new EmptyPanel(Constants.NODE_ID).setVisible(false));
   }
 
   void handle_NOT_OK_Description() {
@@ -85,14 +86,14 @@ public class TestReportPanel extends Panel {
     ExceptionHelper ex = new ExceptionHelper(t);
     
     
-    final WebMarkupContainer parent = new WebMarkupContainer(Constants.PAYLOAD);
+    final WebMarkupContainer parent = new WebMarkupContainer(Constants.PAYLOAD_ID);
     add(parent);
-    Label exception = new Label(Constants.NODE, ex.asString());
+    Label exception = new Label(Constants.NODE_ID, ex.asString());
     exception.setEscapeModelStrings(false);
     exception.add(new SimpleAttributeModifier("class", "exception"));
     parent.add(exception);
-
-    if (ex.getLines() > 20) {
+    if (ex.getLines() > 50) {
+      System.out.println("ex.getLines() > 50");
       SimpleAttributeModifier sam = new SimpleAttributeModifier("style",
           "height: 40em; overflow: scroll;");
       exception.add(sam);
@@ -101,17 +102,17 @@ public class TestReportPanel extends Panel {
 
   void handleBlankPlaceHolderImage() {
     final WebMarkupContainer parent = new WebMarkupContainer(
-        Constants.TREE_CONTROL);
+        Constants.TREE_CONTROL_ID);
     // we don't want the "hand" cursor to appear over the blank place holder
     // image
     parent.add(new SimpleAttributeModifier("style", "cursor: default;"));
 
-    Image image = new Image(Constants.TREE_CONTROL_SYMBOL,
+    Image image = new Image(Constants.TREE_CONTROL_SYMBOL_ID,
         new ResourceReference(TestReportPanel.class, Constants.BLANK_GIF));
     parent.add(image);
     add(parent);
   }
-
+  
   void handleResultImage(TestReport description) {
     boolean hasFailures = description.hasFailures();
     boolean isSuite = description.isSuite();
@@ -131,7 +132,7 @@ public class TestReportPanel extends Panel {
       }
     }
 
-    Image image = new Image(Constants.IMAGE, new ResourceReference(
+    Image image = new Image(Constants.IMAGE_ID, new ResourceReference(
         TestReportPanel.class, testResultSrc));
     add(image);
   }

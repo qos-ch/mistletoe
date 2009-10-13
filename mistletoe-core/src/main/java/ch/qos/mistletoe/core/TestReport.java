@@ -30,7 +30,7 @@ public class TestReport implements Serializable {
 
   final Throwable throwable;
   final double runtime;
-  
+
   // ArrayList instead of List to enforce Serializablity
   final ArrayList<TestReport> children = new ArrayList<TestReport>();
 
@@ -39,14 +39,15 @@ public class TestReport implements Serializable {
     this.className = description.getClassName();
     this.methodName = description.getMethodName();
     this.runtime = findRuntime(description, mCore);
-    
-    Failure associatedFailure = findAssociatedFailure(description, mCore.result.getFailures());
-    if(associatedFailure != null) {
+
+    Failure associatedFailure = findAssociatedFailure(description, mCore.result
+        .getFailures());
+    if (associatedFailure != null) {
       this.throwable = associatedFailure.getException();
     } else {
       this.throwable = null;
     }
-    
+
     for (Description childDescription : description.getChildren()) {
       TestReport childTR = new TestReport(childDescription, mCore);
       children.add(childTR);
@@ -57,16 +58,15 @@ public class TestReport implements Serializable {
     StopWatchRunListener swRunListener = mCore.getStopWatchRunListener();
     return swRunListener.getRunTime(d);
   }
-  
+
   private Failure findAssociatedFailure(Description d, List<Failure> failureList) {
-    for(Failure f: failureList) {
-      if(f.getDescription().equals(d)) {
+    for (Failure f : failureList) {
+      if (f.getDescription().equals(d)) {
         return f;
       }
     }
     return null;
   }
-
 
   public String getDisplayName() {
     return displayName;
@@ -76,7 +76,28 @@ public class TestReport implements Serializable {
     return runtime;
   }
 
-
+  public int getTotalFailures() {
+    int total = 0;
+    if(throwable != null) {
+      total++;
+    } 
+    for (TestReport child : children) {
+      total += child.getTotalFailures();
+    }
+    return total;
+  }
+  
+  public int getTestCount() {
+    int total = 0;
+    if (isTest()) {
+      return 1;
+    } else {
+      for (TestReport child : children) {
+        total += child.getTestCount();
+      }
+    }
+    return total;
+  }
 
   public List<TestReport> getChildren() {
     return children;
@@ -112,7 +133,7 @@ public class TestReport implements Serializable {
     }
     return cumulative;
   }
-  
+
   @Override
   public String toString() {
     String type = isTest() ? "isTest " : "isSuite";

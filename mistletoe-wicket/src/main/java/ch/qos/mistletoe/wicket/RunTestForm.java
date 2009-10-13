@@ -23,7 +23,7 @@ class RunTestForm extends Form<String> {
   private static final long serialVersionUID = 1L;
 
   TreePage parent;
-  
+
   RunTestForm(String id, TreePage parent) {
     super(id);
     this.parent = parent;
@@ -32,24 +32,29 @@ class RunTestForm extends Form<String> {
   @SuppressWarnings("unchecked")
   @Override
   protected void onSubmit() {
-    System.out.println("form was submitted!");
-    TextField<String> tf = (TextField<String>) get("testClassName");
+    TextField<String> tf = (TextField<String>) get(Constants.TEST_CLASS_NAME_ID);
     String targetClassStr = (String) tf.getDefaultModelObject();
     MistletoeCore mCore = null;
     try {
       mCore = new MistletoeCore(targetClassStr);
     } catch (ClassNotFoundException e) {
-      error("Failed to find class "+targetClassStr);
+      error("Failed to find class " + targetClassStr);
       return;
     }
 
     TestReport rootReport = mCore.run();
     rootReport = getFistChildIfNecessary(rootReport);
-    TestReportPanel nodePanel = new TestReportPanel("node", rootReport);
-    parent.remove("node");
+    TestReportPanel nodePanel = new TestReportPanel(Constants.NODE_ID,
+        rootReport);
+    parent.remove(Constants.NODE_ID);
     parent.add(nodePanel);
+
+    parent.remove(Constants.SUMMARY_ID);
+    SummaryMarkupContainer summaryContainer = new SummaryMarkupContainer(
+        Constants.SUMMARY_ID, rootReport);
+    parent.add(summaryContainer);
   }
-  
+
   TestReport getFistChildIfNecessary(TestReport description) {
     if (description.getDisplayName().equals("null")) {
       return description.getChildren().get(0);

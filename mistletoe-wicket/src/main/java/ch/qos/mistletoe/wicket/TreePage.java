@@ -23,25 +23,26 @@ import org.apache.wicket.protocol.http.WebApplication;
 
 public class TreePage extends WebPage {
 
-
   public TreePage() {
     WebApplication application = (WebApplication) getApplication();
-    String originalTargetClassStr = application.getInitParameter("testTarget");
+    String originalTargetClassStr = application
+        .getInitParameter(Constants.TEST_TARGET_KEY);
 
-    add(new FeedbackPanel("feedback"));
-    
-    Form<String> form = new RunTestForm("form", this);
+    add(new FeedbackPanel(Constants.FEEDBACK_ID));
+
+    add(new SummaryMarkupContainer(Constants.SUMMARY_ID, null));
+
+    Form<String> form = new RunTestForm(Constants.RUN_FORM_ID, this);
     add(form);
-    form.add(new TextField<String>("testClassName", new Model<String>(originalTargetClassStr)));
+    form.add(new TextField<String>(Constants.TEST_CLASS_NAME_ID,
+        new Model<String>(originalTargetClassStr)));
 
-    EmptyPanel emptyPanel = new EmptyPanel(Constants.NODE);
+    EmptyPanel emptyPanel = new EmptyPanel(Constants.NODE_ID);
     add(emptyPanel);
   }
 
   public void init() {
 
   }
-
-  
 
 }

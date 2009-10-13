@@ -15,9 +15,10 @@ package ch.qos.mistletoe.wicket.helper;
 
 public class ExceptionHelper {
 
+  static String xLINE_SEPARATORX = "<br/>\r\n";
   static String LINE_SEPARATOR = "\r\n";
   public final static String CAUSED_BY = "Caused by: ";
-  static final String TRACE_PREFIX = "<br />&nbsp;&nbsp;&nbsp;&nbsp;";
+  static final String TRACE_PREFIX = "&nbsp;&nbsp;";
 
   
   final Throwable throwable;
@@ -56,12 +57,14 @@ public class ExceptionHelper {
       StackTraceElement step = stepArray[i];
       sbuf.append(TRACE_PREFIX);
       sbuf.append(escapeTags(step.toString()));
+      sbuf.append(LINE_SEPARATOR);
       lines++;
     }
 
     if (commonFrames > 0) {
       sbuf.append(TRACE_PREFIX);
-      sbuf.append("\t... " + commonFrames).append(" common frames omitted");
+      sbuf.append("... " + commonFrames).append(" common frames omitted");
+      sbuf.append(LINE_SEPARATOR);
       lines++;
     }
   }
@@ -70,10 +73,11 @@ public class ExceptionHelper {
       Throwable t) {
     int commonFrames = findNumberOfCommonFrames(parent, t);
     if (commonFrames > 0) {
-      sb.append("<br />").append(CAUSED_BY);
+      sb.append(CAUSED_BY);
     }
     sb.append(t.getClass().getName()).append(": ").append(
         escapeTags(t.getMessage()));
+    sb.append(LINE_SEPARATOR);
     lines++;
   }
 

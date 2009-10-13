@@ -29,6 +29,10 @@
 			<param-value>ch.qos.mistletoe.wicket.WebRunnerApplication</param-value>
 		</init-param>
 		<init-param>
+			<param-name>configuration</param-name>
+			<param-value>deployment</param-value>
+		</init-param>
+		<init-param>
 			<param-name>filterMappingUrlPattern</param-name>
 			<param-value>/wicket/*</param-value>
 		</init-param>

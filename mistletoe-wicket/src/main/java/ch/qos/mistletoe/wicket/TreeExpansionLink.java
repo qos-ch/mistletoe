@@ -29,7 +29,7 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
   public TreeExpansionLink(String id) {
     super(id);
     ResourceReference ref = getControlSymbolResourceReference(expanded);
-    Image image = new Image(Constants.TREE_CONTROL_SYMBOL, ref);
+    Image image = new Image(Constants.TREE_CONTROL_SYMBOL_ID, ref);
     image.setOutputMarkupId(true);
 
     this.add(image);
@@ -38,9 +38,8 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
   @SuppressWarnings("unchecked")
   @Override
   public void onClick(AjaxRequestTarget target) {
-    System.out.println("*****clicked on ajax link");
     TestReportPanel nodePanel = (TestReportPanel) getParent();
-    if(nodePanel == null) {
+    if(nodePanel == null || nodePanel.testReport == null) {
       warn("Failed to find node panel");
       return;
     }
@@ -50,16 +49,16 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
       System.out.println("expanded=" + expanded);
 
       TreeExpansionLink link = (TreeExpansionLink) nodePanel
-          .get(Constants.TREE_CONTROL);
+          .get(Constants.TREE_CONTROL_ID);
 
       target.addComponent(link.getParent());
 
-      Image image = (Image) link.get(Constants.TREE_CONTROL_SYMBOL);
+      Image image = (Image) link.get(Constants.TREE_CONTROL_SYMBOL_ID);
       ResourceReference ref = getControlSymbolResourceReference(expanded);
             image.setImageResourceReference(ref);
 
       ListView<Node> payloadNode = (ListView<Node>) nodePanel
-          .get(Constants.PAYLOAD);
+          .get(Constants.PAYLOAD_ID);
       payloadNode.setVisible(expanded);
 
       // can't update a ListView

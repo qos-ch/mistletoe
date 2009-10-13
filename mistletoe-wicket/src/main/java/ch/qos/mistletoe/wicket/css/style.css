@@ -1,21 +1,37 @@
-
 body {
-  text-align: center
+  text-align: left;
+  margin-left: 1ex;
+  margin-right: 1ex;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+div.testReport {
 }
 
 table.node {
+} 
 
+td.icon {
+  width: 1px;
 }
 
 .description {
   padding-left: 1ex;
   text-align: left;  
+  width: 50em;
 }
 
+.summaryBox {
+  border: 1px inset #ccc;
+  width: 40em;
+}
 
 .exception {
   white-space: pre;
-  margin-left: 1em;  
-  background: #A2AEE8; 
+  margin-left: 1ex;  
+  background: #EEE; 
   font-family: courier, monospace;
-}
+  font-size: x-small;
+} 
+

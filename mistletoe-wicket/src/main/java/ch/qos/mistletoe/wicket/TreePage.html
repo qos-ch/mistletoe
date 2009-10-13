@@ -1,3 +1,4 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -8,29 +9,31 @@
   </head>
 <body>
 
-  <div wicket:id="feedback"></div>
+  <div wicket:id="feedback"/>
 
-  <p align:"left">
-    <form wicket:id="form">
-      Text field: <input type="text" wicket:id="testClassName" />
+  <div align="left">
+    <form wicket:id="runForm">
+      Name of suite or test to run: 
+      <input wicket:id="testClassName" type="text" size="50"  />
+      
       <input type="submit" value="Run" />
     </form>
-  </p>
+  </div>
 
-  <table wicket:id="summary" width="40em">    
-    <tr>
-      <td wicket:id="runsSummary">Runs: 1/2</td>
-      <td> wicket:id="errosSummary"> Errors/Failures: 12</td>
-    </tr>
-    <tr>
-      <!-- green #66bb66 -->
-      <!-- bordeaux #885555 -->
-      <td wicket:id="summaryInColor" 
-      colspan="2" style="background: #BB4444; border: 1px solid black">&nbsp;</td>
-    </tr>
-  </table>
+  <div style="width:40em; min-width:40em;">
+    <table wicket:id="summary">    
+      <tr>
+        <td wicket:id="runsSummary">Total tests: 1</td>
+        <td wicket:id="errorsSummary">Errors/Failures: 12</td>
+      </tr>
+      <tr>
+        <td wicket:id="summaryInColor" colspan="2" class="summaryBox"></td>
+      </tr>
+      <tr><td style="line-height: 5px;">&nbsp;</td></tr>
+    </table>
+  </div>
   
-  <div wicket:id="node"></div>
+  <div wicket:id="node" class="testReport"></div>
 
 </body>
 </html>
