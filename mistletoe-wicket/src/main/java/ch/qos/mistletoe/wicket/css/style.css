@@ -1,9 +1,9 @@
 body {
   text-align: left;
-  margin-left: 1ex;
-  margin-right: 1ex;
+  margin-left: 2ex;
+  margin-right: 2ex;
   padding-left: 0px;
-  padding-right: 0px;
+  padding-right: 0px;  
 }
 
 div.testReport {
@@ -13,7 +13,7 @@ table.node {
 } 
 
 td.icon {
-  width: 1px;
+  width: 16px;
 }
 
 .description {
@@ -33,5 +33,6 @@ td.icon {
   background: #EEE; 
   font-family: courier, monospace;
   font-size: x-small;
+  max-width: 180ex;
 } 
 

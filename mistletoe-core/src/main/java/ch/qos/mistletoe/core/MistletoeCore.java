@@ -41,7 +41,10 @@ public class MistletoeCore {
   }
 
   public MistletoeCore(String targetClassStr) throws ClassNotFoundException {
-    this(Class.forName(targetClassStr));
+    if(targetClassStr == null) {
+      throw new NullPointerException("[targetClassStr] cannot be null");
+    }
+    this.targetClass = Class.forName(targetClassStr);
   }
 
   public Description getDescription() {

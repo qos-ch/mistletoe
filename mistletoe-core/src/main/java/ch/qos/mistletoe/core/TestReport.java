@@ -87,6 +87,14 @@ public class TestReport implements Serializable {
     return total;
   }
   
+
+  static public TestReport getFistChildIfNecessary(TestReport description) {
+    if (description.getDisplayName().equals("null")) {
+      return description.getChildren().get(0);
+    } else {
+      return description;
+    }
+  }
   public int getTestCount() {
     int total = 0;
     if (isTest()) {

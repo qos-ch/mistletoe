@@ -25,7 +25,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import ch.qos.mistletoe.core.MistletoeCore;
 import ch.qos.mistletoe.core.TestReport;
-import ch.qos.mistletoe.wicket.helper.ExceptionHelper;
+import ch.qos.mistletoe.core.helper.ExceptionHelper;
 
 public class TestReportPanel extends Panel {
   private static final long serialVersionUID = 2645889186544792364L;

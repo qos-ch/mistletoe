@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>ch.qos.mistletoe</groupId>
+    <artifactId>mistletoe-parent</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>mistletoe-servlet</artifactId>
+  <packaging>jar</packaging>
+  <name>Mistletoe servlet-based web-runner</name>
+  
+  <url>http://mistletoe.qos.ch</url>
+  <description>Mistletoe wicket-based web-runner</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>ch.qos.mistletoe</groupId>
+      <artifactId>mistletoe-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket</artifactId>
+      <version>${wicket.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+
+  </dependencies> 
+
+  <build>   
+  </build>
+
+</project>

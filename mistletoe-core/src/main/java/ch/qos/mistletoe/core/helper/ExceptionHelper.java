@@ -11,7 +11,7 @@
  * under the terms of the GNU Lesser General Public License version 2.1
  * as published by the Free Software Foundation.
  */
-package ch.qos.mistletoe.wicket.helper;
+package ch.qos.mistletoe.core.helper;
 
 public class ExceptionHelper {
 

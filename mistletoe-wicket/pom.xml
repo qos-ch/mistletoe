@@ -18,23 +18,11 @@
   <description>Mistletoe wicket-based web-runner</description>
 
   <dependencies>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
     
     <dependency>
       <groupId>ch.qos.mistletoe</groupId>
       <artifactId>mistletoe-core</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>ch.qos.mistletoe</groupId>
-      <artifactId>mistletoe-core</artifactId>
-      <type>test-jar</type>
-      <version>${project.version}</version>
-    </dependency>
-
 
     <dependency>
       <groupId>org.apache.wicket</groupId>

@@ -53,6 +53,8 @@
           <excludes>
             <exclude>**/AllTest.java</exclude>
             <exclude>**/PackageTest.java</exclude>
+            <exclude>**/BadBeforeTest.java</exclude>
+
           </excludes>
         </configuration>
       </plugin>

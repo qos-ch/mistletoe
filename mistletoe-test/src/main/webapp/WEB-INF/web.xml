@@ -11,15 +11,14 @@
 	</welcome-file-list>
 
 
-	<!--
-		<servlet> <servlet-name>MistletoeServlet</servlet-name>
+	<servlet>
+		<servlet-name>MistletoeServlet</servlet-name>
 		<servlet-class>ch.qos.mistletoe.servlet.MistletoeServlet</servlet-class>
-		</servlet>
-	-->
-	<!--
-		<servlet-mapping> <servlet-name>MistletoeServlet</servlet-name>
-		<url-pattern>/servlet/*</url-pattern> </servlet-mapping>
-	-->
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MistletoeServlet</servlet-name>
+		<url-pattern>/servlet/*</url-pattern>
+	</servlet-mapping>
 
 	<filter>
 		<filter-name>wicket-mistletoe</filter-name>

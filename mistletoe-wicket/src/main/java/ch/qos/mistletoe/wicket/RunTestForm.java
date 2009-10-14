@@ -43,7 +43,7 @@ class RunTestForm extends Form<String> {
     }
 
     TestReport rootReport = mCore.run();
-    rootReport = getFistChildIfNecessary(rootReport);
+    rootReport = TestReport.getFistChildIfNecessary(rootReport);
     TestReportPanel nodePanel = new TestReportPanel(Constants.NODE_ID,
         rootReport);
     parent.remove(Constants.NODE_ID);
@@ -55,11 +55,5 @@ class RunTestForm extends Form<String> {
     parent.add(summaryContainer);
   }
 
-  TestReport getFistChildIfNecessary(TestReport description) {
-    if (description.getDisplayName().equals("null")) {
-      return description.getChildren().get(0);
-    } else {
-      return description;
-    }
-  }
+
 }
