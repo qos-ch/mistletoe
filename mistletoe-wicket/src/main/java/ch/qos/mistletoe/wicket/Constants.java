@@ -42,8 +42,4 @@ static final String TEST_TARGET_KEY = "testTarget";
   static final String TSUITE_ERROR_GIF = "images/tsuiteerror.gif";
 
   static final String BLANK_GIF = "images/blank.gif";
-
-  static final String FAILURE_COLOR = "#BB4444";
-  static final String SUCCESS_COLOR = "#66bb66";
-  
 }

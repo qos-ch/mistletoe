@@ -45,9 +45,9 @@ public class SummaryMarkupContainer extends WebMarkupContainer {
 
     Label summaryInColor = new Label(Constants.SUMMARY_IN_COLOR_ID, "&nbsp;");
     summaryInColor.setEscapeModelStrings(false);
-    String summaryColor = Constants.SUCCESS_COLOR;
+    String summaryColor = TestReport.SUCCESS_COLOR;
     if (testReport.hasFailures()) {
-      summaryColor = Constants.FAILURE_COLOR;
+      summaryColor = TestReport.FAILURE_COLOR;
     }
     summaryInColor.add(new SimpleAttributeModifier("style", "background: "
         + summaryColor + ";"));

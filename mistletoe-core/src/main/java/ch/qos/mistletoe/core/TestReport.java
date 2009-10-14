@@ -24,6 +24,9 @@ public class TestReport implements Serializable {
 
   private static final long serialVersionUID = -1196521748389497981L;
 
+  public static final String FAILURE_COLOR = "#BB4444";
+  public static final String SUCCESS_COLOR = "#66bb66";
+  
   final String displayName;
   final String className;
   final String methodName;
