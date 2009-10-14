@@ -1,5 +1,5 @@
 
-document.write('<p class="menu_header">Logback project</p>');
+document.write('<p class="menu_header">Mistletoe project</p>');
 document.write('<p class="menu"><a href="' + prefix + 'index.html">Introduction</a></p>');
 document.write('<p class="menu"><a href="' + prefix + 'news.html">News</a></p>');
 document.write('<p class="menu"><a href="' + prefix + 'download.html">Download</a></p>');
