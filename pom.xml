@@ -182,7 +182,7 @@
         <configuration>
           <descriptors>
             <descriptor>
-              src/main/assembly/source.xml
+              src/main/assembly.xml
             </descriptor>
           </descriptors>
 					<finalName>slf4j-${project.version}</finalName>

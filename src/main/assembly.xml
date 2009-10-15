@@ -1,0 +1,147 @@
+<assembly>
+	<id>dist</id>
+	<formats>
+		<format>zip</format>
+		<format>tar.gz</format>
+	</formats>
+	<fileSets>
+		<!-- Module POMs -->
+		<fileSet>
+			<directory>mistletoe-core/</directory>
+			<outputDirectory>mistletoe-core/</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+
+    <fileSet>
+			<directory>mistletoe-servlet</directory>
+			<outputDirectory>mistletoe-servlet/</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>mistletoe-wicket/</directory>
+			<outputDirectory>mistletoe-access/</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>mistletoe-site/</directory>
+			<outputDirectory>mistletoe-site/</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+		<!-- Module Source directories -->
+		<fileSet>
+			<directory>mistletoe-core/src/</directory>
+			<outputDirectory>mistletoe-core/src/</outputDirectory>
+			<excludes>
+				<exclude>
+					test/output/
+				</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>mistletoe-servlet/src/</directory>
+			<outputDirectory>mistletoe-servlet/src/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>mistletoe-site/src/</directory>
+			<outputDirectory>mistletoe-site/src/</outputDirectory>
+		</fileSet>
+ 		
+		<!-- Module JARs -->
+		<fileSet>
+			<directory>mistletoe-core/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>mistletoe-core-${project.version}.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>mistletoe-servlet/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>mistletoe-servlet-${project.version}.jar</include>
+			</includes>
+		</fileSet>		
+		<fileSet>
+			<directory>mistletoe-wicket/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>mistletoe-wicket-${project.version}.jar</include>
+			</includes>
+		</fileSet>		
+
+		<!-- Module Source JARs -->
+		<fileSet>
+			<directory>mistletoe-core/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>mistletoe-core-${project.version}-sources.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>mistletoe-servlet/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>mistletoe-servlet-${project.version}-sources.jar</include>
+			</includes>
+		</fileSet>		
+		<fileSet>
+			<directory>mistletoe-wicket/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>mistletoe-wicket-${project.version}-sources.jar</include>
+			</includes>
+		</fileSet>	
+				 
+		<!-- Website -->
+		<fileSet>
+			<directory>target/site</directory>
+			<outputDirectory>docs/</outputDirectory>
+      <excludes>
+        <exclude>dist/*</exclude>
+      </excludes>
+		</fileSet>
+		
+		<!-- Parent files -->
+		<fileSet>
+			<includes>
+				<include>src/</include>
+				<include>README*</include>
+				<include>LICENSE*</include>
+				<include>pom.xml</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+	</fileSets>
+	
+
+</assembly>
