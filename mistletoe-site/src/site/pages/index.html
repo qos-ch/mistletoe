@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-    <title>Logback Home</title>
+    <title>Mistletoe Home</title>
     <link rel="stylesheet" type="text/css" href="css/common.css" />
     <link rel="stylesheet" type="text/css" href="css/screen.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/_print.css" media="print" />
@@ -23,18 +23,22 @@
     
     <p>Mistletoe is a junit extension intended for integration
     testing. In technical terms, mistletoe is a junit test suite
-    runner presenting its test results on a web-page.</p>
+    runner presenting the test results via HTTP as a web-page.</p>
 
-    <p>Application which run perfectly in the developer's environment
-    may not run properly in the production environment. Such problems
-    are often due to configuration errors and connectivity issues.
-    Intead of perusing log files, or looking at stack traces,
-    mistletoe offers a convenient method for diagnosing integration
-    problems. Given a test suite checking for integration issues such
-    as configuration errors, connectivity to your database or to
-    neighboring applications, you can home in on integration problems
-    quickly and conveniently.
+
+    <p>Mistletoe, when incorporated within an application will help
+    diagnose integration issues. For example, an application which
+    runs perfectly in the developer's environment may not run properly
+    in the production environment due to configuration errors and
+    connectivity issues.  Instead of perusing log files, or looking at
+    stack traces, mistletoe will run a user-specified series of tests
+    and present the results in the form of a web-page served by the
+    application itself. Since the tests are run within the context of
+    the deployed application, given an appropriate test suite, you can
+    home in on integration problems quickly and conveniently.
     </p>
+
+  
 
     <p>See the user <a href="manual.html">manual</a> for details.</p>
 

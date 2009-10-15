@@ -15,16 +15,26 @@ import ch.qos.mistletoe.core.TestReport;
 public class MistletoeServlet extends HttpServlet {
   private static final long serialVersionUID = 8651798172023005153L;
 
+  static String DEFAULT_TEST_SUITE_KEY = "defaultTestSuite";
   static String TEST_CLASS_NAME_KEY = "testClassName";
   String defaultTestClassName;
 
   public void init(ServletConfig config) {
-    defaultTestClassName = config.getInitParameter(TEST_CLASS_NAME_KEY);
+    defaultTestClassName = trim(config.getInitParameter(DEFAULT_TEST_SUITE_KEY));
   }
 
   boolean isEmpty(String s) {
     return s == null || s.length() == 0;
   }
+  
+  String trim(String s) {
+    if(s == null) {
+      return null;
+    } else {
+      return s.trim();
+    }
+  }
+  
   public void service(ServletRequest req, ServletResponse response)
       throws IOException {
     response.setContentType("text/html");
@@ -35,8 +45,7 @@ public class MistletoeServlet extends HttpServlet {
     TestReportPrinter trp = new TestReportPrinter(request, out);
     
     trp.printHeader();
-    String testClassName = request.getParameter(TEST_CLASS_NAME_KEY);
-
+    String testClassName = trim(request.getParameter(TEST_CLASS_NAME_KEY));
     
     if (isEmpty(testClassName)) {
       testClassName = defaultTestClassName;

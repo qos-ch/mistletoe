@@ -21,12 +21,12 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.protocol.http.WebApplication;
 
-public class TreePage extends WebPage {
+public class TestReportPage extends WebPage {
 
-  public TreePage() {
+  public TestReportPage() {
     WebApplication application = (WebApplication) getApplication();
     String originalTargetClassStr = application
-        .getInitParameter(Constants.TEST_TARGET_KEY);
+        .getInitParameter(Constants.DEFAULT_TEST_SUITE_KEY);
 
     add(new FeedbackPanel(Constants.FEEDBACK_ID));
 

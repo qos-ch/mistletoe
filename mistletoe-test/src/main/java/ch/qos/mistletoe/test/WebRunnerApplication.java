@@ -11,15 +11,16 @@
  * under the terms of the GNU Lesser General Public License version 2.1
  * as published by the Free Software Foundation.
  */
-package ch.qos.mistletoe.wicket;
+package ch.qos.mistletoe.test;
 
 import org.apache.wicket.protocol.http.WebApplication;
+import ch.qos.mistletoe.wicket.TestReportPage;
 
 public class WebRunnerApplication  extends WebApplication {
 
   @Override
-  public Class<TreePage> getHomePage() {
-    return TreePage.class;
+  public Class<TestReportPage> getHomePage() {
+    return TestReportPage.class;
   }
 
 }

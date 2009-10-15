@@ -20,6 +20,7 @@
 	<inceptionYear>2009</inceptionYear>
 
 	<properties>
+    <junit.version>4.7</junit.version>
 		<wicket.version>1.4.2</wicket.version>
 		<logback.version>0.9.17</logback.version>
 	</properties>
@@ -49,7 +50,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.7</version>
+        <version>${junit.version}</version>
       </dependency>     
 
       <dependency>

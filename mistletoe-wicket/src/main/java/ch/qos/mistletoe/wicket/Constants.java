@@ -15,7 +15,7 @@ package ch.qos.mistletoe.wicket;
 
 public class Constants {
 
-static final String TEST_TARGET_KEY = "testTarget";
+static final String DEFAULT_TEST_SUITE_KEY = "defaultTestSuite";
 
   static final String FEEDBACK_ID = "feedback";
   static final String RUN_FORM_ID = "runForm";

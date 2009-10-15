@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+    <title>Mistletoe Manual</title>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/screen.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/_print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="css/prettify.css" />
+  </head>
+
+  <body onload="prettyPrint()">
+    <script type="text/javascript">prefix='';</script>
+    <script type="text/javascript" src="js/prettify.js"></script>
+
+    <script src="templates/header.js" type="text/javascript"></script>
+    <div id="left">
+      <noscript>Please turn on Javascript to view this menu</noscript>
+      <script src="templates/left.js" type="text/javascript"></script>
+    </div>
+    <div id="content">
+		
+		<h2>Mistletoe Manual</h2>
+    
+    <p>Mistletoe enforces a strict separation between its data-model
+    layer and its presentation layer. The data-model layer as found in
+    mistletoe-core module is reponsible for running a user-specified
+    test suite and the presentation layer is responsible for
+    presenting the results. At this time, two distinct and independent
+    presentation layer implementations exist, namely mistletoe-servlet
+    and mistletoe-wicket.
+    </p>
+
+    <p>Mistletoe-servlet is based only on the javax-servlet API in
+    order to minimize the number of dependencies in your
+    applicaiton. Mistletoe-wicket, as the name indicates, is based on
+    the <a href="http://wicket.apache.org/">wicket</a> framework.
+    </p>
+
+    
+    <h2>Test suites</h2>
+
+    <p>It assumed that you are already familiar with junit and in
+    particular with defining junit test suites. There is plenty of
+    documentation on the subject. For the sake of completeness, here
+    is a very short introduction on the subject.
+    </p>
+    
+    <p>Given classes ATest</p>
+
+<pre class="prettyprint source">package foo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+public class ATest {
+  @Test
+  public void a0() {
+    assertEquals(4, 2 + 2);
+  }
+  @Test
+  public void a1() {
+    assertTrue("2 and 2 makes 4", 2 + 2 == 4);
+  }
+}</pre>
+
+  <p>and BTest</p>
+
+<pre class="prettyprint source">package foo;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+
+public class BTest {
+  @Test
+  public void b0() {
+    assertNotNull("hello");
+  }
+}</pre>
+
+    <p>You can combine them in a larger test suite as follows</p>
+
+
+   <pre class="prettyprint source">package foo;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+<b>@RunWith(Suite.class)</b>
+<b>@SuiteClasses( {ATest.class, BTest.class } )</b>
+public class CombinedTest {
+}</pre>
+
+    <p>Formally speaking, the <code>ATest</code> class is a test suite
+    in itself, because since it contains the test cases
+    <code>a0</code> and <code>a1</code>. The CombinedTest class shows
+    how you can combine two test suites to create a larger one. If
+    desired, <code>CombinedTest</code> could be inserted into an even
+    larger test suite.</p>
+
+ <pre class="prettyprint source">package foo;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+@RunWith(Suite.class)
+@SuiteClasses({CombinedTest.class, CTest.class})
+public class LargerSuite {
+}</pre>
+
+    <p>After you have created an appropriate test suite for
+    integration testing purposes, mistletoe can run it for you and
+    present the result in a web-page.  The results can be presented by
+    either <code>mistletoe-servlet</code> or via
+    <code>mistletoe-wicket</code> modules.
+    </p>
+
+
+    <h2><a name="mistletoe-servlet" href="#mistletoe-servlet">mistletoe-servlet</a></h2>
+
+    <p>The mistletoe-servlet module is a offers a single servlet,
+    namely <code>MistletoeServlet</code>, which can be used to run
+    test suites.</p>
+
+    <h3>Installation</h3>
+    
+    <p>Installing <code>MistletoeServlet</code> consists of adding the
+    following artifacts onto the class path of your
+    web-application.</p>
+
+    <ul>
+      <li>junit-${junit.version}.jar</li>
+      <li>mistletoe-core-${project.version}.jar</li>
+      <li>mistletoe-servlet${project.version}.jar</li>
+    </ul>
+
+    <p>In addition, you need to add the following lines in the
+    <em>web.xml</em> file of your web-applicaiton.
+    </p>
+
+<pre class="prettyprint source">&lt;servlet>
+  &lt;servlet-name>MistletoeServlet&lt;/servlet-name>
+  &lt;servlet-class>ch.qos.mistletoe.servlet.MistletoeServlet&lt;/servlet-class>
+  &lt;!-- (OPTIONAL) name the default test suite -->
+  &lt;init-param>
+    &lt;param-name>defaultTestSuite&lt;/param-name>
+    &lt;param-value>name.of.test.suite.you.wish.to.run&lt;/param-value>
+  &lt;/init-param>
+&lt;/servlet>
+&lt;servlet-mapping>
+  &lt;servlet-name>MistletoeServlet&lt;/servlet-name>
+  &lt;!-- replace <em>servlet</em> with any other value of your choice -->
+  &lt;url-pattern>/servlet/*&lt;/url-pattern>
+&lt;/servlet-mapping> </pre>
+    
+    <h3>Running <code>MistletoeServlet</code></h3>
+
+    <p>After you have added <code>MistletoeServlet</code> in your
+    application, point your browser to the location where
+    <code>MistletoeServlet</code> is located. You should see a page
+    aking to the following.
+    </p>
+
+    <img src="images/servlet.png" alt=""/>
+
+    <p>You can instruct this servlet to run any test suite included in
+    your applicaiton and report the results. That's all there is to
+    it. Keep in mind that<code>MistletoeServlet</code> can only be as
+    useful as the information provided by your test suite.</p>
+
+    <h2><a name="mistletoe-wicket" href="#mistletoe-wicket">mistletoe-wicket</a></h2>
+
+    <p>The mistletoe-wicket module provides a component called
+    <code>TestReportPage</code> which can be used to run any test
+    suite and report the results.
+    </p>
+
+    
+    <h3>Installation</h3>
+    
+    <p>If your application is already wicket-based, then all you need
+    is to add <em>mistletoe-core-${project.version}</em> and
+    <em>mistletoe-wicket-${project.version}</em> onto the class path
+    and then integrate <code>TestReportPage</code> into your
+    application. However, if you are not using Wicket but would like
+    to benefit from the capabilities offered by
+    <em>mistletoe-wicket</em>, then here are the steps you need to
+    follow.
+    </p>
+
+
+    <p>Add the following artifacts on to the class path of your
+    application.</p>
+
+    <ul>
+      <li>junit-${junit.version}.jar</li>
+      <li>slf4j-api-${slf4j.version}.jar</li>
+      <li>mistletoe-core-${project.version}.jar</li>
+      <li>mistletoe-wicket-${project.version}.jar</li>
+      <li>wicket-${wicket.version}.jar</li>
+    </ul>
+    
+
+    <p>Add the following class to you application.</p>
+
+<pre  class="prettyprint source">    
+package foo;
+
+import org.apache.wicket.protocol.http.WebApplication;
+import 
+ch.qos.mistletoe.wicket
+public class WebRunnerApplication  extends WebApplication {
+  @Override
+  public Class&lt;TreePage> getHomePage() {
+    return TreePage.class;
+  }
+}</pre>
+
+   <p>Add the following XML snipper to the <em>web.xml</em> file of
+   your application.</p>
+
+   <pre  class="prettyprint source">&lt;filter>
+  &lt;filter-name>wicket-mistletoe&lt;/filter-name>
+  &lt;filter-class>org.apache.wicket.protocol.http.WicketFilter&lt;/filter-class>
+  &lt;init-param>
+    &lt;param-name>applicationClassName&lt;/param-name>
+    &lt;param-value>ch.qos.mistletoe.wicket.WebRunnerApplication&lt;/param-value>
+  &lt;/init-param> 
+  &lt;init-param>
+   &lt;param-name>filterMappingUrlPattern&lt;/param-name>
+   &lt;param-value>/wicket/*&lt;/param-value>
+  &lt;/init-param>
+  &lt;init-param>
+   &lt;param-name>defaultTestSuite&lt;/param-name>
+   &lt;!-- (OPTIONAL) the name of the default test suite -->
+   &lt;param-value>ch.qos.mistletoe.sample.MyCollection&lt;/param-value>
+  &lt;/init-param>
+&lt;/filter>
+
+&lt;filter-mapping>
+  &lt;filter-name>wicket-mistletoe&lt;/filter-name>
+  &lt;url-pattern>/wicket/*&lt;/url-pattern>
+&lt;/filter-mapping> </pre>
+    
+
+   <h3>Running TestReportPage</h3>
+
+   <p>After you have configured your application as described above,
+   point your browser to the appropriate location. You should see a
+   page aking to the following.
+   </p>
+   
+   <img src="images/wicket.png" alt=""/>
+   
+   <p>The resulting page is similar to the one produced by
+   <code>MistletoeServlet</code> but the wicket version is interactive
+   as you can collapse or expand entire suite trees.</p>
+   
+
+   <script src="templates/footer.js" type="text/javascript"></script>	
+  </div>
+  </body>
+</html>

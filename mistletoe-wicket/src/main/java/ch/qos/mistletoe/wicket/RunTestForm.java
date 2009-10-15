@@ -22,9 +22,9 @@ import ch.qos.mistletoe.core.TestReport;
 class RunTestForm extends Form<String> {
   private static final long serialVersionUID = 1L;
 
-  TreePage parent;
+  TestReportPage parent;
 
-  RunTestForm(String id, TreePage parent) {
+  RunTestForm(String id, TestReportPage parent) {
     super(id);
     this.parent = parent;
   }

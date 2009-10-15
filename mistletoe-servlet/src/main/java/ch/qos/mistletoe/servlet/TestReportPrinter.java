@@ -135,7 +135,7 @@ public class TestReportPrinter {
   private void handle_NOT_OK_Description(String indent, TestReport testReport) {
     Throwable t = testReport.getThrowable();
     ExceptionHelper ex = new ExceptionHelper(t);
-    out.print("<pre>");
+    out.print("<pre class=\"exception\">");
     out.println(ex.asString());
     out.println("</pre>");
   }
@@ -147,11 +147,11 @@ public class TestReportPrinter {
   }
 
   void printSummary(TestReport testReport) {
+    print("<p/>");
     print("<table>");
     print("  <tr>");
-    print("    <td>Total tests: " + testReport.getTestCount() + "</td>");
-    print("    <td >Errors/Failures: " + testReport.getTotalFailures()
-        + "</td>");
+    print("    <td>Tests: " + testReport.getTestCount() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Errors: " + testReport.getTotalFailures()+"</td>");
+    print("    <td width=\"50%\"/>");
     print("   </tr>");
     print("   <tr>");
     print("     <td colspan=\"2\" class=\"summaryBox\" "
