@@ -33,7 +33,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>mistletoe-wicket/</directory>
-			<outputDirectory>mistletoe-access/</outputDirectory>
+			<outputDirectory>mistletoe-wicket/</outputDirectory>
 			<includes>
 				<include>
 					pom.xml

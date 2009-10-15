@@ -42,6 +42,7 @@
 		<module>mistletoe-servlet</module>
 		<module>mistletoe-wicket</module>
 		<module>mistletoe-test</module>
+    <module>mistletoe-site</module>
   </modules>
 
   <dependencyManagement>
@@ -185,7 +186,7 @@
               src/main/assembly.xml
             </descriptor>
           </descriptors>
-					<finalName>slf4j-${project.version}</finalName>
+					<finalName>mistletoe-${project.version}</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 					<outputDirectory>target/site/dist/</outputDirectory>
 				</configuration>
@@ -210,7 +211,7 @@
 	<distributionManagement>
 		<site>
 			<id>pixie</id>
-			<url>scp://pixie/var/www/misteletoe.qos.ch/htdocs/</url>
+			<url>scp://pixie/var/www/mistletoe.qos.ch/htdocs/</url>
 		</site>
 
     <repository>
