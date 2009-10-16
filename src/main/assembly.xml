@@ -31,6 +31,7 @@
 				<exclude>*.bak</exclude>
 			</excludes>
 		</fileSet>
+
 		<fileSet>
 			<directory>mistletoe-wicket/</directory>
 			<outputDirectory>mistletoe-wicket/</outputDirectory>
@@ -43,6 +44,20 @@
 				<exclude>*.bak</exclude>
 			</excludes>
 		</fileSet>
+
+    <fileSet>
+			<directory>mistletoe-test/</directory>
+			<outputDirectory>mistletoe-test/</outputDirectory>
+			<includes>
+				<include>
+					pom.xml
+				</include>
+			</includes>
+			<excludes>
+				<exclude>*.bak</exclude>
+			</excludes>
+		</fileSet>
+
 		<fileSet>
 			<directory>mistletoe-site/</directory>
 			<outputDirectory>mistletoe-site/</outputDirectory>
@@ -55,6 +70,7 @@
 				<exclude>*.bak</exclude>
 			</excludes>
 		</fileSet>
+
 		<!-- Module Source directories -->
 		<fileSet>
 			<directory>mistletoe-core/src/</directory>
@@ -68,6 +84,16 @@
 		<fileSet>
 			<directory>mistletoe-servlet/src/</directory>
 			<outputDirectory>mistletoe-servlet/src/</outputDirectory>
+		</fileSet>
+
+    <fileSet>
+      <directory>mistletoe-wicket/src/</directory>
+      <outputDirectory>mistletoe-wicket/src/</outputDirectory>
+		</fileSet>
+
+    <fileSet>
+      <directory>mistletoe-test/src/</directory>
+      <outputDirectory>mistletoe-test/src/</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>mistletoe-site/src/</directory>

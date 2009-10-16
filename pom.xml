@@ -5,7 +5,7 @@
 
 	<groupId>ch.qos.mistletoe</groupId>
 	<artifactId>mistletoe-parent</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2</version>
 
 	<packaging>pom</packaging>
 	<name>Misteletoe</name>
