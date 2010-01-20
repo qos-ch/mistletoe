@@ -189,16 +189,40 @@ public class LargerSuite {
     </p>
 
     
-    <h3>Installation</h3>
+    <h3>Integration with an already wicket-based application</h3>
     
     <p>If your application is already wicket-based, then all you need
     is to add <em>mistletoe-core-${project.version}</em> and
     <em>mistletoe-wicket-${project.version}</em> onto the class path
-    and then integrate <code>TestReportPage</code> into your
-    application. However, if you are not using Wicket but would like
-    to benefit from the capabilities offered by
-    <em>mistletoe-wicket</em>, then here are the steps you need to
-    follow.
+    and then add link to the <code>TestReportPage</code> in your
+    wicket-based application. Clicking on the link you have defined
+    will allow you to run any junit 4 test suite and see the results
+    as a web-page.
+    </p>
+
+    <p>If you would like <code>TestReportPage</code> to propose a
+    default test suite to execute, then add the following lines to the
+    element defining the wicket filter in your application's
+    <em>web.xml</em> file. Here is an example.
+    </p>
+
+    
+   <pre  class="prettyprint source">&lt;filter>
+  &lt;filter-name>...&lt;/filter-name>
+  &lt;filter-class>org.apache.wicket.protocol.http.WicketFilter&lt;/filter-class>
+  ... 
+  <b>&lt;init-param></b>
+   <b>&lt;param-name>defaultTestSuite&lt;/param-name></b>
+   <b>&lt;param-value>fully.qualified.named.of.the.default.Junit4TestSuite&lt;/param-value></b>
+  <b>&lt;/init-param></b>
+&lt;/filter>    </pre>
+
+    <h3>Integration with a non wicket-based application</h3>
+
+
+    <p>If you are not using Wicket but would like to benefit from the
+    capabilities offered by <em>mistletoe-wicket</em>, then here are
+    the steps you need to follow.
     </p>
 
 
@@ -220,12 +244,12 @@ public class LargerSuite {
 package foo;
 
 import org.apache.wicket.protocol.http.WebApplication;
-import 
-ch.qos.mistletoe.wicket
+import ch.qos.mistletoe.wicket.TestReportPage;
+
 public class WebRunnerApplication  extends WebApplication {
   @Override
-  public Class&lt;TreePage> getHomePage() {
-    return TreePage.class;
+  public Class&lt;TestReportPage> getHomePage() {
+    return TestReportPage.class;
   }
 }</pre>
 
@@ -237,30 +261,36 @@ public class WebRunnerApplication  extends WebApplication {
   &lt;filter-class>org.apache.wicket.protocol.http.WicketFilter&lt;/filter-class>
   &lt;init-param>
     &lt;param-name>applicationClassName&lt;/param-name>
-    &lt;param-value>ch.qos.mistletoe.wicket.WebRunnerApplication&lt;/param-value>
+    &lt;param-value>foo.WebRunnerApplication&lt;/param-value>
   &lt;/init-param> 
   &lt;init-param>
    &lt;param-name>filterMappingUrlPattern&lt;/param-name>
-   &lt;param-value>/wicket/*&lt;/param-value>
+   &lt;param-value>/mistletoe/*&lt;/param-value>
   &lt;/init-param>
+  &lt;!-- (OPTIONAL) the name of the default test suite -->
   &lt;init-param>
-   &lt;param-name>defaultTestSuite&lt;/param-name>
-   &lt;!-- (OPTIONAL) the name of the default test suite -->
-   &lt;param-value>ch.qos.mistletoe.sample.MyCollection&lt;/param-value>
+   &lt;param-name>defaultTestSuite&lt;/param-name>  
+   &lt;param-value>fully.qualified.named.of.the.default.Junit4TestSuite&lt;/param-value>
   &lt;/init-param>
 &lt;/filter>
 
 &lt;filter-mapping>
   &lt;filter-name>wicket-mistletoe&lt;/filter-name>
-  &lt;url-pattern>/wicket/*&lt;/url-pattern>
+  &lt;url-pattern>/mistletoe/*&lt;/url-pattern>
 &lt;/filter-mapping> </pre>
     
 
    <h3>Running TestReportPage</h3>
 
    <p>After you have configured your application as described above,
-   point your browser to the appropriate location. You should see a
-   page aking to the following.
+   point your browser to the appropriate location. For wicket-based
+   application the location will be that of the link you defined for
+   <code>TestReportPage</code>. For a non-wicket-based applicaiton,
+   the url would be http://hostname/appname/<em>mistletoe/</em> where
+   http://hostname/appname/ stands for the url prefix of your applicaiton.
+   </p>
+
+   <p>You should see a page akin to the following.
    </p>
    
    <img src="images/wicket.png" alt=""/>
