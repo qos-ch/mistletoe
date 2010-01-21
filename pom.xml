@@ -211,12 +211,12 @@
 	<distributionManagement>
 		<site>
 			<id>pixie</id>
-			<url>scp://pixie/var/www/mistletoe.qos.ch/htdocs/</url>
+			<url>scp://pixie.qos.ch/var/www/mistletoe.qos.ch/htdocs/</url>
 		</site>
 
     <repository>
       <id>pixie</id>
-      <url>scp://pixie/var/mvnrepo/</url>
+      <url>scp://pixie.qos.ch/var/mvnrepo/</url>
     </repository>
 
 	</distributionManagement>
