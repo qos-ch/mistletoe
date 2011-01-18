@@ -148,6 +148,11 @@ public class LargerSuite {
     &lt;param-name>defaultTestSuite&lt;/param-name>
     &lt;param-value>name.of.test.suite.you.wish.to.run&lt;/param-value>
   &lt;/init-param>
+  &lt;!-- (OPTIONAL) path where you put the images -->
+  &lt;init-param>
+    &lt;param-name>defaultImagesPath&lt;/param-name>
+    &lt;param-value>/path/to/locate/your/images/&lt;/param-value>
+  &lt;/init-param>
 &lt;/servlet>
 &lt;servlet-mapping>
   &lt;servlet-name>MistletoeServlet&lt;/servlet-name>
@@ -164,6 +169,11 @@ public class LargerSuite {
     distribution under the <em>
     mistletoe-test/src/main/webapp/images/</em> folder. Forgetting to
     add these images wil lead to visually unsatisfactory results.
+    <br/>
+    By default, the servlet will refer to the images under the
+    <em>/images/</em> folder of your web-application, but you can
+    override this using the <em>defaultImagesPath</em> initialization
+    parameter in your web.xml file.
     </p>
 
     <h3>Running <code>MistletoeServlet</code></h3>
