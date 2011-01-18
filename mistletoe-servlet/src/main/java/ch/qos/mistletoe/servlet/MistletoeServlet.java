@@ -16,11 +16,14 @@ public class MistletoeServlet extends HttpServlet {
   private static final long serialVersionUID = 8651798172023005153L;
 
   static String DEFAULT_TEST_SUITE_KEY = "defaultTestSuite";
+  static String DEFAULT_IMAGES_PATH = "defaultImagesPath";
   static String TEST_CLASS_NAME_KEY = "testClassName";
   String defaultTestClassName;
+  String defaultImagesPath;
 
   public void init(ServletConfig config) {
     defaultTestClassName = trim(config.getInitParameter(DEFAULT_TEST_SUITE_KEY));
+    defaultImagesPath = trim(config.getInitParameter(DEFAULT_IMAGES_PATH));
   }
 
   boolean isEmpty(String s) {
@@ -42,7 +45,7 @@ public class MistletoeServlet extends HttpServlet {
     HttpServletRequest request = (HttpServletRequest) req;
     
     PrintWriter out = response.getWriter();
-    TestReportPrinter trp = new TestReportPrinter(request, out);
+    TestReportPrinter trp = new TestReportPrinter(request, out, defaultImagesPath);
     
     trp.printHeader();
     String testClassName = trim(request.getParameter(TEST_CLASS_NAME_KEY));

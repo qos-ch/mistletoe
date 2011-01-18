@@ -8,18 +8,33 @@ import ch.qos.mistletoe.core.TestReport;
 import ch.qos.mistletoe.core.helper.ExceptionHelper;
 
 public class TestReportPrinter {
-  static final String TEST_OK_GIF = "/images/testok.gif";
-  static final String TEST_ERROR_GIF = "/images/testerr.gif";
+  String TEST_OK_GIF;
+  String TEST_ERROR_GIF;
 
-  static final String TSUITE_OK_GIF = "/images/tsuiteok.gif";
-  static final String TSUITE_ERROR_GIF = "/images/tsuiteerror.gif";
+  String TSUITE_OK_GIF;
+  String TSUITE_ERROR_GIF;
 
   HttpServletRequest request;
   PrintWriter out;
 
   TestReportPrinter(HttpServletRequest request, PrintWriter out) {
+    this(request, out, null);
+  }
+
+  TestReportPrinter(HttpServletRequest request, PrintWriter out, String defaultImagesPath) {
     this.request = request;
     this.out = out;
+    if (null != defaultImagesPath) {
+      TEST_OK_GIF = String.format("%s%stestok.gif", defaultImagesPath, (defaultImagesPath.endsWith("/") ? "" : "/"));
+      TEST_ERROR_GIF = String.format("%s%stesterr.gif", defaultImagesPath, (defaultImagesPath.endsWith("/") ? "" : "/"));
+      TSUITE_OK_GIF = String.format("%s%stsuiteok.gif", defaultImagesPath, (defaultImagesPath.endsWith("/") ? "" : "/"));
+      TSUITE_ERROR_GIF = String.format("%s%stsuiteerror.gif", defaultImagesPath, (defaultImagesPath.endsWith("/") ? "" : "/"));
+    } else {
+      TEST_OK_GIF = "/images/testok.gif";
+      TEST_ERROR_GIF = "/images/testerr.gif";
+      TSUITE_OK_GIF = "/images/tsuiteok.gif";
+      TSUITE_ERROR_GIF = "/images/tsuiteerror.gif";
+    }
   }
 
   private void print(String msg) {
