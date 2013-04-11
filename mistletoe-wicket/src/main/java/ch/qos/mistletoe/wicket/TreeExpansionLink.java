@@ -13,64 +13,71 @@
  */
 package ch.qos.mistletoe.wicket;
 
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 
-public class TreeExpansionLink extends AjaxFallbackLink<Object> {
-  private static final long serialVersionUID = 1L;
-  boolean expanded = true;
+public class TreeExpansionLink extends AjaxFallbackLink<Object>
+{
+	private static final long serialVersionUID = 1L;
+	boolean expanded = true;
 
-  static String EXPAND_GIF = "images/expand.gif";
-  static String COLLAPSE_GIF = "images/collapse.gif";
+	static String EXPAND_GIF = "images/expand.gif";
+	static String COLLAPSE_GIF = "images/collapse.gif";
 
-  public TreeExpansionLink(String id) {
-    super(id);
-    ResourceReference ref = getControlSymbolResourceReference(expanded);
-    Image image = new Image(Constants.TREE_CONTROL_SYMBOL_ID, ref);
-    image.setOutputMarkupId(true);
+	public TreeExpansionLink(final String id)
+	{
+		super(id);
+		final ResourceReference ref = this.getControlSymbolResourceReference(this.expanded);
+		final Image image = new Image(Constants.TREE_CONTROL_SYMBOL_ID, ref);
+		image.setOutputMarkupId(true);
 
-    this.add(image);
-  }
+		this.add(image);
+	}
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public void onClick(AjaxRequestTarget target) {
-    TestReportPanel nodePanel = (TestReportPanel) getParent();
-    if(nodePanel == null || nodePanel.testReport == null) {
-      warn("Failed to find node panel");
-      return;
-    }
-    
-    if (nodePanel.testReport.isSuite()) {
-      expanded = !expanded;
-      System.out.println("expanded=" + expanded);
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onClick(final AjaxRequestTarget target)
+	{
+		final TestReportPanel nodePanel = (TestReportPanel)this.getParent();
+		if ((nodePanel == null) || (nodePanel.testReport == null))
+		{
+			this.warn("Failed to find node panel");
+			return;
+		}
 
-      TreeExpansionLink link = (TreeExpansionLink) nodePanel
-          .get(Constants.TREE_CONTROL_ID);
+		if (nodePanel.testReport.isSuite())
+		{
+			this.expanded = !this.expanded;
+			System.out.println("expanded=" + this.expanded);
 
-      target.addComponent(link.getParent());
+			final TreeExpansionLink link = (TreeExpansionLink)nodePanel
+					.get(Constants.TREE_CONTROL_ID);
 
-      Image image = (Image) link.get(Constants.TREE_CONTROL_SYMBOL_ID);
-      ResourceReference ref = getControlSymbolResourceReference(expanded);
-            image.setImageResourceReference(ref);
+			target.add(link.getParent());
 
-      ListView<Node> payloadNode = (ListView<Node>) nodePanel
-          .get(Constants.PAYLOAD_ID);
-      payloadNode.setVisible(expanded);
+			final Image image = (Image)link.get(Constants.TREE_CONTROL_SYMBOL_ID);
+			final ResourceReference ref = this.getControlSymbolResourceReference(this.expanded);
+			image.setImageResourceReference(ref);
 
-      // can't update a ListView
-      target.addComponent(payloadNode.getParent());
-    }
-  }
+			final ListView<Node> payloadNode = (ListView<Node>)nodePanel.get(Constants.PAYLOAD_ID);
+			payloadNode.setVisible(this.expanded);
 
-  ResourceReference getControlSymbolResourceReference(boolean expanded) {
-    String raw = EXPAND_GIF;
-    if (expanded) {
-      raw = COLLAPSE_GIF;
-    }
-    return new ResourceReference(TestReportPanel.class, raw);
-  }
+			// can't update a ListView
+			target.add(payloadNode.getParent());
+		}
+	}
+
+	ResourceReference getControlSymbolResourceReference(final boolean expanded)
+	{
+		String raw = TreeExpansionLink.EXPAND_GIF;
+		if (expanded)
+		{
+			raw = TreeExpansionLink.COLLAPSE_GIF;
+		}
+		return new PackageResourceReference(TestReportPanel.class, raw);
+	}
 }
