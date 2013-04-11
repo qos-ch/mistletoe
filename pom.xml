@@ -21,7 +21,7 @@
 
 	<properties>
     <junit.version>4.7</junit.version>
-		<wicket.version>1.4.2</wicket.version>
+		<wicket.version>6.5.0</wicket.version>
 		<logback.version>0.9.17</logback.version>
 	</properties>
 
