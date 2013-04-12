@@ -34,7 +34,6 @@ public class SummaryMarkupContainer extends WebMarkupContainer {
   }
   
   void handleTestReport(TestReport testReport) {
-    System.out.println("handleTestReport**");
     Label runsSummary = new Label(Constants.RUNS_SUMMARY_ID, "Total tests: "
         + testReport.getTestCount());
     add(runsSummary);

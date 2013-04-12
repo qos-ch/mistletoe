@@ -21,7 +21,8 @@
   <inceptionYear>2009</inceptionYear>
 
   <properties>
-    <junit.version>4.7</junit.version>
+    <junit.version>4.10</junit.version>
+    <servlet-api.version>2.5</servlet-api.version>
     <wicket.version>6.5.0</wicket.version>
     <logback.version>1.0.11</logback.version>
     <maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
@@ -102,7 +103,7 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
+        <version>${servlet-api.version}</version>
       </dependency>
 
     </dependencies>

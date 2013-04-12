@@ -47,8 +47,6 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
     
     if (nodePanel.testReport.isSuite()) {
       expanded = !expanded;
-      System.out.println("expanded=" + expanded);
-
       TreeExpansionLink link = (TreeExpansionLink) nodePanel
           .get(Constants.TREE_CONTROL_ID);
 

@@ -93,7 +93,6 @@ public class TestReportPanel extends Panel {
     exception.add(new AttributeModifier("class", "exception"));
     parent.add(exception);
     if (ex.getLines() > 50) {
-      System.out.println("ex.getLines() > 50");
       AttributeModifier sam = new AttributeModifier("style",
           "height: 40em; overflow: scroll;");
       exception.add(sam);
