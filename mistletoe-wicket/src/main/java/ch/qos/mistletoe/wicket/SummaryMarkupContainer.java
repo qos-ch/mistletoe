@@ -1,6 +1,6 @@
 package ch.qos.mistletoe.wicket;
 
-import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 
@@ -49,7 +49,7 @@ public class SummaryMarkupContainer extends WebMarkupContainer {
     if (testReport.hasFailures()) {
       summaryColor = TestReport.FAILURE_COLOR;
     }
-    summaryInColor.add(new SimpleAttributeModifier("style", "background: "
+    summaryInColor.add(new AttributeModifier("style", "background: "
         + summaryColor + ";"));
     add(summaryInColor);
   }

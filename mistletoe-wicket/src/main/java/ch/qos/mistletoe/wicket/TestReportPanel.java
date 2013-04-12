@@ -13,8 +13,8 @@
  */
 package ch.qos.mistletoe.wicket;
 
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
@@ -90,11 +90,11 @@ public class TestReportPanel extends Panel {
     add(parent);
     Label exception = new Label(Constants.NODE_ID, ex.asString());
     exception.setEscapeModelStrings(false);
-    exception.add(new SimpleAttributeModifier("class", "exception"));
+    exception.add(new AttributeModifier("class", "exception"));
     parent.add(exception);
     if (ex.getLines() > 50) {
       System.out.println("ex.getLines() > 50");
-      SimpleAttributeModifier sam = new SimpleAttributeModifier("style",
+      AttributeModifier sam = new AttributeModifier("style",
           "height: 40em; overflow: scroll;");
       exception.add(sam);
     }
@@ -105,10 +105,10 @@ public class TestReportPanel extends Panel {
         Constants.TREE_CONTROL_ID);
     // we don't want the "hand" cursor to appear over the blank place holder
     // image
-    parent.add(new SimpleAttributeModifier("style", "cursor: default;"));
+    parent.add(new AttributeModifier("style", "cursor: default;"));
 
     Image image = new Image(Constants.TREE_CONTROL_SYMBOL_ID,
-        new ResourceReference(TestReportPanel.class, Constants.BLANK_GIF));
+        new PackageResourceReference(TestReportPanel.class, Constants.BLANK_GIF));
     parent.add(image);
     add(parent);
   }
@@ -132,7 +132,7 @@ public class TestReportPanel extends Panel {
       }
     }
 
-    Image image = new Image(Constants.IMAGE_ID, new ResourceReference(
+    Image image = new Image(Constants.IMAGE_ID, new PackageResourceReference(
         TestReportPanel.class, testResultSrc));
     add(image);
   }

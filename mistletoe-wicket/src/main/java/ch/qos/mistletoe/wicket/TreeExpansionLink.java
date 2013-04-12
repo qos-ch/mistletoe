@@ -13,7 +13,8 @@
  */
 package ch.qos.mistletoe.wicket;
 
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.markup.html.image.Image;
@@ -51,7 +52,7 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
       TreeExpansionLink link = (TreeExpansionLink) nodePanel
           .get(Constants.TREE_CONTROL_ID);
 
-      target.addComponent(link.getParent());
+      target.add(link.getParent());
 
       Image image = (Image) link.get(Constants.TREE_CONTROL_SYMBOL_ID);
       ResourceReference ref = getControlSymbolResourceReference(expanded);
@@ -62,7 +63,7 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
       payloadNode.setVisible(expanded);
 
       // can't update a ListView
-      target.addComponent(payloadNode.getParent());
+      target.add(payloadNode.getParent());
     }
   }
 
@@ -71,6 +72,6 @@ public class TreeExpansionLink extends AjaxFallbackLink<Object> {
     if (expanded) {
       raw = COLLAPSE_GIF;
     }
-    return new ResourceReference(TestReportPanel.class, raw);
+    return new PackageResourceReference(TestReportPanel.class, raw);
   }
 }
