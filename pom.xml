@@ -146,21 +146,6 @@
       </plugin>
 
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <descriptors>
-            <descriptor>
-              src/main/assembly.xml
-            </descriptor>
-          </descriptors>
-          <finalName>mistletoe-${project.version}</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
-          <outputDirectory>target/site/dist/</outputDirectory>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>2.2.1</version>
@@ -226,7 +211,6 @@
     </plugins>
   </build>
 
-
   <distributionManagement>
     <site>
       <id>pixie</id>
@@ -234,8 +218,8 @@
     </site>
 
     <repository>
-      <id>pixie</id>
-      <url>scp://pixie.qos.ch/var/mvnrepo/</url>
+      <id>sonatype-nexus-staging</id>
+     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
 
   </distributionManagement>
@@ -248,48 +232,50 @@
         <maven.test.skip>true</maven.test.skip>
       </properties>
     </profile>
+ 
     <profile>
-      <id>license</id>
+      <id>javadocjar</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>com.google.code.maven-license-plugin</groupId>
-            <artifactId>maven-license-plugin</artifactId>
-            <configuration>
-              <header>src/main/licenseHeader.txt</header>
-              <quiet>false</quiet>
-              <failIfMissing>true</failIfMissing>
-              <aggregate>true</aggregate>
-              <includes>
-                <include>src/**/*.java</include>
-              </includes>
-              <useDefaultExcludes>true</useDefaultExcludes>
-              <useDefaultMapping>true</useDefaultMapping>
-              <properties>
-                <year>1999</year>
-              </properties>
-              <headerDefinitions>
-                <headerDefinition>src/main/javadocHeaders.xml</headerDefinition>
-              </headerDefinitions>
-            </configuration>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.8</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
-
-      <pluginRepositories>
-        <pluginRepository>
-          <id>mc-release</id>
-          <name>Local Maven repository of releases</name>
-          <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-        </pluginRepository>
-      </pluginRepositories>
     </profile>
+    
+    
+    <profile>
+      <id>sign-artifacts</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>    
   </profiles>
 
 </project>
