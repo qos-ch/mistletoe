@@ -12,11 +12,12 @@
     <link rel="stylesheet" type="text/css" href="css/prettify.css" />
   </head>
 
-  <body onload="prettyPrint()">
+  <body onload="prettyPrint(); decorate();">
     <script type="text/javascript">prefix='';</script>
     <script type="text/javascript" src="js/prettify.js"></script>
-
-    <script src="templates/header.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery-min.js"></script>
+    <script type="text/javascript" src="js/decorator.js"></script>
+    <script type="text/javascript" src="templates/header.js" ></script>
     <div id="left">
       <noscript>Please turn on Javascript to view this menu</noscript>
       <script src="templates/left.js" type="text/javascript"></script>
@@ -118,7 +119,7 @@ public class LargerSuite {
     </p>
 
 
-    <h2><a name="mistletoe-servlet" href="#mistletoe-servlet">mistletoe-servlet</a></h2>
+    <h2 class="doAnchor">mistletoe-servlet</h2>
 
     <p>The mistletoe-servlet module is a offers a single servlet,
     namely <code>MistletoeServlet</code>, which can be used to run
@@ -181,7 +182,7 @@ public class LargerSuite {
     it. Keep in mind that<code>MistletoeServlet</code> can only be as
     useful as the information provided by your test suite.</p>
 
-    <h2><a name="mistletoe-wicket" href="#mistletoe-wicket">mistletoe-wicket</a></h2>
+    <h2 class="doAnchor">mistletoe-wicket</h2>
 
     <p>The mistletoe-wicket module provides a component called
     <code>TestReportPage</code> which can be used to run any test
@@ -280,7 +281,7 @@ public class WebRunnerApplication  extends WebApplication {
 &lt;/filter-mapping> </pre>
     
 
-   <h3>Running TestReportPage</h3>
+   <h3 class="doAnchor" name="Running_TestReportPage">Running TestReportPage</h3>
 
    <p>After you have configured your application as described above,
    point your browser to the appropriate location. For wicket-based
