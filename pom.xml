@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>ch.qos.mistletoe</groupId>
-	<artifactId>mistletoe-parent</artifactId>
-	<version>0.3-SNAPSHOT</version>
+  <groupId>ch.qos.mistletoe</groupId>
+  <artifactId>mistletoe-parent</artifactId>
+  <version>0.3-SNAPSHOT</version>
 
-	<packaging>pom</packaging>
-	<name>Misteletoe</name>
+  <packaging>pom</packaging>
+  <name>Misteletoe</name>
 
-	<url>http://mistletoe.qos.ch</url>
+  <url>http://mistletoe.qos.ch</url>
 
-	<organization>
-		<name>QOS.ch</name>
-		<url>http://www.qos.ch</url>
-	</organization>
+  <organization>
+    <name>QOS.ch</name>
+    <url>http://www.qos.ch</url>
+  </organization>
 
-	<inceptionYear>2009</inceptionYear>
+  <inceptionYear>2009</inceptionYear>
 
-	<properties>
+  <properties>
     <junit.version>4.7</junit.version>
-		<wicket.version>6.5.0</wicket.version>
-		<logback.version>0.9.17</logback.version>
-	</properties>
+    <wicket.version>6.5.0</wicket.version>
+    <logback.version>1.0.11</logback.version>
+    <maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
+    <maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>2.12</maven-surefire-plugin.version>
+    <maven-site-plugin.version>3.0</maven-site-plugin.version>
+    <maven-jetty-plugin.version>6.1.26</maven-jetty-plugin.version>
+  </properties>
 
   <licenses>
     <license>
@@ -37,22 +43,37 @@
     </license>
   </licenses>
 
-	<modules>
+  <modules>
     <module>mistletoe-core</module>
-		<module>mistletoe-servlet</module>
-		<module>mistletoe-wicket</module>
-		<module>mistletoe-test</module>
+    <module>mistletoe-servlet</module>
+    <module>mistletoe-wicket</module>
+    <module>mistletoe-test</module>
     <module>mistletoe-site</module>
   </modules>
 
+
+  <scm>
+    <url>https://github.com/qos-ch/mistletoe</url>
+    <connection>git@github.com:qos-ch/mistletoe.git</connection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>ceki</id>
+      <name>Ceki Gulcu</name>
+      <email>ceki@qos.ch</email>
+    </developer>
+  </developers>
+
+
   <dependencyManagement>
-    
-    <dependencies>      
+
+    <dependencies>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>${junit.version}</version>
-      </dependency>     
+      </dependency>
 
       <dependency>
         <groupId>ch.qos.logback</groupId>
@@ -81,15 +102,15 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
-        <version>2.5</version>        
-      </dependency>     
+        <version>2.5</version>
+      </dependency>
 
     </dependencies>
 
- </dependencyManagement>
+  </dependencyManagement>
 
 
-	<build>
+  <build>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -97,86 +118,32 @@
       </resource>
     </resources>
 
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
- 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<forkMode>once</forkMode>
-					<reportFormat>plain</reportFormat>
-					<trimStackTrace>false</trimStackTrace>
-					<excludes>
-						<exclude>**/AllTest.java</exclude>
-						<exclude>**/PackageTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>		
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>        
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>              
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
         <configuration>
-        	<aggregate>true</aggregate>
-          <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
-					<links>
-						<link>
-							http://java.sun.com/j2se/1.5.0/docs/api
-						</link>
-					</links>
-          <groups>
-            <group>
-              <title>SLF4J packages</title>
-              <packages>org.slf4j:org.slf4j.*</packages>
-            </group>
-
-
-          </groups>
+          <forkMode>once</forkMode>
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>**/AllTest.java</exclude>
+            <exclude>**/PackageTest.java</exclude>
+          </excludes>
         </configuration>
       </plugin>
 
-    </plugins>
-
-	</build>
-
-
-  
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<reportSets>
-					<reportSet><reports/></reportSet>
-				</reportSets>
-			</plugin>	    
-      
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.1</version>
@@ -186,44 +153,94 @@
               src/main/assembly.xml
             </descriptor>
           </descriptors>
-					<finalName>mistletoe-${project.version}</finalName>
-					<appendAssemblyId>false</appendAssemblyId>
-					<outputDirectory>target/site/dist/</outputDirectory>
-				</configuration>
-			</plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-          <javadocDir>target/site/apidocs/</javadocDir>
-          <linkJavadoc>true</linkJavadoc>
+          <finalName>mistletoe-${project.version}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+          <outputDirectory>target/site/dist/</outputDirectory>
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
+      <!-- ====== site plugin ===== -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>${maven-site-plugin.version}</version>
+        <configuration>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>2.8</version>
+              <configuration>
+                <aggregate>true</aggregate>
+                <links>
+                  <link>
+                    http://java.sun.com/j2se/1.5.0/docs/api
+                  </link>
+                </links>
+                <groups>
+                  <group>
+                    <title>Mistletoe core</title>
+                    <packages>ch.qos.mistletoe.core:ch.qos.mistletoe.core.helper</packages>
+                  </group>
+                  <group>
+                    <title>Mistletoe servlet</title>
+                    <packages>ch.qos.mistletoe.servlet</packages>
+                  </group>
+                  <group>
+                    <title>Mistletoe wicket</title>
+                    <packages>ch.qos.mistletoe.wicket</packages>
+                  </group>
+                </groups>
+              </configuration>
+            </plugin>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jxr-plugin</artifactId>
+              <version>2.3</version>
+              <configuration>
+                <aggregate>true</aggregate>
+                <javadocDir>target/site/apidocs/</javadocDir>
+                <linkJavadoc>true</linkJavadoc>
+              </configuration>
+            </plugin>
+
+          </reportPlugins>
+        </configuration>
+      </plugin>
     </plugins>
+  </build>
 
-	</reporting>
-	
-	  
-	<distributionManagement>
-		<site>
-			<id>pixie</id>
-			<url>scp://pixie.qos.ch/var/www/mistletoe.qos.ch/htdocs/</url>
-		</site>
+
+  <distributionManagement>
+    <site>
+      <id>pixie</id>
+      <url>scp://pixie.qos.ch/var/www/mistletoe.qos.ch/htdocs/</url>
+    </site>
 
     <repository>
       <id>pixie</id>
       <url>scp://pixie.qos.ch/var/mvnrepo/</url>
     </repository>
 
-	</distributionManagement>
-  
- 
-  
-  <profiles>    
+  </distributionManagement>
+
+
+  <profiles>
     <profile>
       <id>testSkip</id>
       <properties>
@@ -231,7 +248,7 @@
       </properties>
     </profile>
     <profile>
-      <id>license</id>     
+      <id>license</id>
       <build>
         <plugins>
           <plugin>
@@ -249,7 +266,7 @@
               <useDefaultMapping>true</useDefaultMapping>
               <properties>
                 <year>1999</year>
-              </properties>     
+              </properties>
               <headerDefinitions>
                 <headerDefinition>src/main/javadocHeaders.xml</headerDefinition>
               </headerDefinitions>
@@ -271,7 +288,7 @@
           </releases>
         </pluginRepository>
       </pluginRepositories>
-   </profile>
- </profiles>
+    </profile>
+  </profiles>
 
 </project>

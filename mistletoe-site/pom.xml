@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>ch.qos.mistletoe</groupId>
@@ -13,40 +13,28 @@
   <artifactId>mistletoe-site</artifactId>
   <packaging>jar</packaging>
   <name>Mistletoe Site</name>
-  
+
   <url>http://mistletoe.qos.ch</url>
   <description>Mistletoe Site</description>
 
-	<build>
-		<resources>
-			<resource>
+  <build>
+    <resources>
+      <resource>
         <directory>src/site/pages</directory>
         <targetPath>../../../target/site</targetPath>
         <filtering>true</filtering>
-			</resource>
-		</resources>
-	</build>
-
-  <reporting>
-		<plugins>
+      </resource>
+    </resources>
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
+        <version>${maven-site-plugin.version}</version>
         <configuration>
           <outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>
-          maven-project-info-reports-plugin
-        </artifactId>
-        <reportSets>
-          <reportSet> <reports/> </reportSet>
-        </reportSets>
-      </plugin>
-		</plugins>
-	</reporting>
-  
+    </plugins>
+  </build>
 
 </project>
