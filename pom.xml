@@ -5,7 +5,7 @@
 
 	<groupId>ch.qos.mistletoe</groupId>
 	<artifactId>mistletoe-parent</artifactId>
-	<version>0.3</version>
+	<version>0.4</version>
 
 	<packaging>pom</packaging>
 	<name>Misteletoe</name>
@@ -20,8 +20,8 @@
 	<inceptionYear>2009</inceptionYear>
 
 	<properties>
-    <junit.version>4.7</junit.version>
-		<wicket.version>6.5.0</wicket.version>
+    <junit.version>4.12</junit.version>
+		<wicket.version>7.0.0</wicket.version>
 		<logback.version>0.9.17</logback.version>
 	</properties>
 
@@ -80,8 +80,8 @@
 
       <dependency>
         <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>2.5</version>        
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.0.1</version>        
       </dependency>     
 
     </dependencies>
@@ -102,8 +102,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
  
